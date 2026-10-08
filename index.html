@@ -10,7 +10,7 @@
   <!-- Fontes do Google: Fraunces (títulos) e Plus Jakarta Sans (textos) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================
@@ -24,12 +24,13 @@
       --tinta: #14110d;
       --tinta-suave: #4a433b;
       --linha: rgba(20, 17, 13, 0.12);
-      --azul: #0049a4;
-      --azul-escuro: #00387f;
+      --marrom: #6b3e26;
+      --marrom-escuro: #4a2a18;
       --laranja: #df7900;          /* uso decorativo e sobre fundo escuro */
       --laranja-texto: #9a5200;    /* versão mais escura para texto pequeno sobre o creme (contraste acessível) */
 
       --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --fonte-nome: "DM Serif Display", Georgia, serif; /* fonte do nome "Julia Neves" (o J fica alinhado na linha) */
       --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
       --raio: 16px;
@@ -62,11 +63,11 @@
     img { max-width: 100%; display: block; }
     a { color: inherit; }
     h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
-    h1 em, h2 em, h3 em { font-style: italic; font-weight: 300; color: var(--azul); }
+    h1 em, h2 em, h3 em { font-style: italic; font-weight: 300; color: var(--marrom); }
     p { margin: 0; }
-    ::selection { background: var(--azul); color: var(--creme); }
+    ::selection { background: var(--marrom); color: var(--creme); }
 
-    :focus-visible { outline: 3px solid var(--azul); outline-offset: 3px; border-radius: 4px; }
+    :focus-visible { outline: 3px solid var(--marrom); outline-offset: 3px; border-radius: 4px; }
 
     .sr-only {
       position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -87,7 +88,7 @@
     .rotulo {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--azul); margin-bottom: 20px;
+      color: var(--marrom); margin-bottom: 20px;
     }
     .rotulo::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--laranja); flex: none; }
     .titulo-secao { font-size: clamp(2.3rem, 1.6rem + 3.4vw, 4.2rem); max-width: 16ch; }
@@ -104,8 +105,8 @@
       transition: transform .25s ease, background-color .25s ease, color .25s ease, box-shadow .25s ease;
     }
     .botao:hover { transform: translateY(-2px); }
-    .botao--principal { background: var(--azul); color: var(--branco); box-shadow: 0 10px 24px -12px rgba(0, 73, 164, .7); }
-    .botao--principal:hover { background: var(--azul-escuro); }
+    .botao--principal { background: var(--marrom); color: var(--branco); box-shadow: 0 10px 24px -12px rgba(107, 62, 38, .7); }
+    .botao--principal:hover { background: var(--marrom-escuro); }
     .botao--contorno { border-color: var(--tinta); color: var(--tinta); background: transparent; }
     .botao--contorno:hover { background: var(--tinta); color: var(--creme); }
     .seta { transition: transform .25s ease; }
@@ -139,10 +140,10 @@
     }
     .topo-interno { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .logo {
-      font-family: var(--serif); font-size: 1.45rem; text-decoration: none; letter-spacing: -0.02em;
+      font-family: var(--fonte-nome); font-size: 1.5rem; text-decoration: none; letter-spacing: -0.01em;
       display: inline-flex; align-items: baseline; gap: 2px; white-space: nowrap;
     }
-    .logo em { font-style: italic; font-weight: 300; color: var(--azul); }
+    .logo em { font-style: italic; font-weight: 300; color: var(--marrom); }
     .logo .ponto { color: var(--laranja); }
 
     .menu { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); list-style: none; margin: 0; padding: 0; }
@@ -159,7 +160,7 @@
       transition: background-color .25s ease;
     }
     .menu .menu-cta::after { display: none; }
-    .menu .menu-cta:hover { background: var(--azul); }
+    .menu .menu-cta:hover { background: var(--marrom); }
 
     .menu-botao {
       display: none; width: 48px; height: 48px; border: 0; background: transparent; cursor: pointer;
@@ -216,7 +217,8 @@
     }
     @keyframes pulso { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
 
-    .capa h1 { font-size: clamp(3.4rem, 1.4rem + 9vw, 8.4rem); line-height: 0.92; letter-spacing: -0.035em; }
+    .capa h1 { font-family: var(--fonte-nome); font-size: clamp(3.4rem, 1.4rem + 9vw, 8.4rem); line-height: 0.95; letter-spacing: -0.02em; }
+    .capa h1 em, .logo em, .rodape-nome em { font-weight: 400; }
     .capa h1 em { display: block; }
     .capa-profissao {
       margin-top: 22px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--laranja-texto);
@@ -230,7 +232,7 @@
     }
     .capa-numeros div { display: flex; flex-direction: column-reverse; }
     .capa-numeros dt { font-size: 0.85rem; color: var(--tinta-suave); margin-top: 4px; }
-    .capa-numeros dd { margin: 0; font-family: var(--serif); font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem); line-height: 1; color: var(--azul); }
+    .capa-numeros dd { margin: 0; font-family: var(--serif); font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem); line-height: 1; color: var(--marrom); }
 
     .capa-foto { position: relative; }
     .capa-foto .midia { aspect-ratio: 4 / 5; box-shadow: var(--sombra-forte); }
@@ -244,7 +246,7 @@
       display: flex; align-items: center; gap: 12px; max-width: 250px;
     }
     .capa-cartao .play-mini {
-      flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--azul); display: grid; place-items: center;
+      flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--marrom); display: grid; place-items: center;
     }
     .capa-cartao strong { display: block; font-family: var(--serif); font-size: 1.25rem; font-weight: 500; line-height: 1.1; }
     .capa-cartao small { font-size: 0.8rem; color: var(--tinta-suave); line-height: 1.3; display: block; }
@@ -281,7 +283,7 @@
     .entregas li { position: relative; padding-left: 30px; font-size: 0.95rem; line-height: 1.5; }
     .entregas li::before {
       content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%;
-      background: var(--azul) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fffcf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+      background: var(--marrom) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fffcf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
     }
 
     /* =========================================================
@@ -302,14 +304,14 @@
       transition: transform .35s ease, background-color .35s ease; z-index: 2;
     }
     .play svg { margin-left: 4px; fill: var(--tinta); transition: fill .35s ease; }
-    .destaque:hover .play { transform: translate(-50%, calc(-50% - 6px)) scale(1.08); background: var(--azul); }
+    .destaque:hover .play { transform: translate(-50%, calc(-50% - 6px)) scale(1.08); background: var(--marrom); }
     .destaque:hover .play svg { fill: var(--branco); }
     .destaque-tag {
       position: absolute; top: 16px; left: 16px; z-index: 2; background: rgba(20, 17, 13, .78); color: var(--creme);
       font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px;
     }
     .destaque-info { padding-top: 24px; }
-    .destaque-numero { font-family: var(--serif); font-size: clamp(2.4rem, 2rem + 1.6vw, 3.2rem); line-height: 1; color: var(--azul); letter-spacing: -0.03em; }
+    .destaque-numero { font-family: var(--serif); font-size: clamp(2.4rem, 2rem + 1.6vw, 3.2rem); line-height: 1; color: var(--marrom); letter-spacing: -0.03em; }
     .destaque-rotulo { font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--laranja-texto); margin-top: 8px; }
     .destaque h3 { font-size: 1.4rem; margin-top: 16px; display: flex; align-items: baseline; gap: 8px; }
     .destaque-contexto { color: var(--tinta-suave); margin-top: 8px; font-size: 0.95rem; }
@@ -334,7 +336,7 @@
       padding: 5px 12px; border-radius: 999px;
     }
     .trabalho-info { padding-top: 16px; }
-    .trabalho-categoria { font-size: 0.75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--azul); }
+    .trabalho-categoria { font-size: 0.75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--marrom); }
     .trabalho h3 { font-size: 1.3rem; margin-top: 6px; }
     .trabalho-marca { font-size: 0.9rem; color: var(--tinta-suave); margin-top: 4px; }
     .trabalho[hidden] { display: none; }
@@ -354,7 +356,7 @@
     .servico-numero { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 1.1rem; color: var(--laranja-texto); }
     .servico h3 { font-size: 1.65rem; margin-top: 28px; }
     .servico p { color: var(--tinta-suave); margin-top: 12px; font-size: 0.97rem; }
-    .servico-ideal { margin-top: auto; padding-top: 24px; font-size: 0.85rem; font-weight: 600; color: var(--azul); }
+    .servico-ideal { margin-top: auto; padding-top: 24px; font-size: 0.85rem; font-weight: 600; color: var(--marrom); }
     .servico-ideal span { display: block; border-top: 1px solid var(--linha); padding-top: 16px; }
 
     /* =========================================================
@@ -363,13 +365,13 @@
     .contadores { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--linha); }
     .contador { padding: clamp(28px, 4vw, 48px) clamp(12px, 2vw, 28px); text-align: center; }
     .contador + .contador { border-left: 1px solid var(--linha); }
-    .contador-numero { font-family: var(--serif); font-size: clamp(2.6rem, 1.8rem + 3vw, 4.4rem); line-height: 1; color: var(--azul); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .contador-numero { font-family: var(--serif); font-size: clamp(2.6rem, 1.8rem + 3vw, 4.4rem); line-height: 1; color: var(--marrom); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
     .contador-rotulo { margin-top: 12px; font-size: 0.9rem; color: var(--tinta-suave); }
 
     .subtitulo-bloco { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem); margin: clamp(64px, 8vw, 100px) 0 28px; }
     .resultados-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(16px, 2vw, 24px); }
     .resultado {
-      background: var(--azul); color: var(--branco); border-radius: var(--raio); padding: clamp(28px, 3vw, 36px);
+      background: var(--marrom); color: var(--branco); border-radius: var(--raio); padding: clamp(28px, 3vw, 36px);
       position: relative; overflow: hidden;
     }
     .resultado::before { content: ""; position: absolute; top: 0; left: 0; width: 56px; height: 4px; background: var(--laranja); }
@@ -416,7 +418,7 @@
     .formulario { background: var(--creme); color: var(--tinta); border-radius: var(--raio); padding: clamp(24px, 4vw, 44px); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
     .formulario h3 { font-size: 1.7rem; }
     .formulario > p { color: var(--tinta-suave); margin-top: 8px; font-size: 0.95rem; }
-    .formulario :focus-visible { outline-color: var(--azul); }
+    .formulario :focus-visible { outline-color: var(--marrom); }
     .campo { margin-top: 22px; }
     .campo label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; }
     .campo input, .campo textarea {
@@ -424,20 +426,20 @@
       border: 1.5px solid var(--linha); border-radius: var(--raio-sm); padding: 14px 16px; transition: border-color .2s ease, box-shadow .2s ease;
     }
     .campo textarea { min-height: 140px; resize: vertical; }
-    .campo input:focus, .campo textarea:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 4px rgba(0, 73, 164, .15); }
+    .campo input:focus, .campo textarea:focus { outline: none; border-color: var(--marrom); box-shadow: 0 0 0 4px rgba(107, 62, 38, .15); }
     .campo input[aria-invalid="true"], .campo textarea[aria-invalid="true"] { border-color: #b3261e; }
     .erro-campo { color: #b3261e; font-size: 0.85rem; margin-top: 6px; min-height: 0; }
     .formulario .botao { width: 100%; margin-top: 28px; }
     .form-status { margin-top: 18px; font-size: 0.95rem; border-radius: var(--raio-sm); }
-    .form-status:not(:empty) { padding: 14px 16px; background: rgba(0, 73, 164, .08); color: var(--azul-escuro); }
+    .form-status:not(:empty) { padding: 14px 16px; background: rgba(107, 62, 38, .08); color: var(--marrom-escuro); }
 
     /* =========================================================
        8. RODAPÉ
        ========================================================= */
     .rodape { padding: clamp(56px, 8vw, 96px) 0 32px; }
     .rodape-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 32px; padding-bottom: 40px; border-bottom: 1px solid var(--linha); }
-    .rodape-nome { font-family: var(--serif); font-size: clamp(2.6rem, 1.6rem + 5vw, 5.5rem); line-height: .95; letter-spacing: -0.035em; }
-    .rodape-nome em { font-style: italic; font-weight: 300; color: var(--azul); }
+    .rodape-nome { font-family: var(--fonte-nome); font-size: clamp(2.6rem, 1.6rem + 5vw, 5.5rem); line-height: .95; letter-spacing: -0.035em; }
+    .rodape-nome em { font-style: italic; font-weight: 300; color: var(--marrom); }
     .rodape-frase { color: var(--tinta-suave); margin-top: 12px; }
     .redes { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 0; padding: 0; }
     .redes a {
@@ -447,7 +449,7 @@
     .redes a:hover { background: var(--tinta); color: var(--creme); border-color: var(--tinta); }
     .rodape-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 24px; font-size: 0.85rem; color: var(--tinta-suave); }
     .rodape-base a { text-decoration: none; }
-    .rodape-base a:hover { color: var(--azul); }
+    .rodape-base a:hover { color: var(--marrom); }
 
     /* =========================================================
        ANIMAÇÃO DE ENTRADA AO ROLAR
@@ -557,20 +559,20 @@
     /* =====================================================================
        ÁREA DE EDIÇÃO
        Todo o texto do site está aqui. Edite só o que está entre aspas "".
-       Dica: palavras entre *asteriscos* aparecem em itálico azul nos títulos.
+       Dica: palavras entre *asteriscos* aparecem em itálico marrom nos títulos.
        ===================================================================== */
 
     // EDITE AQUI: cores dos blocos que simulam as fotos e vídeos.
     // Cada item da lista é um gradiente. Nos blocos abaixo, "cor: 0" usa o primeiro, "cor: 1" o segundo, e assim por diante.
     const GRADIENTES = [
-      "linear-gradient(160deg, #0049a4 0%, #3d72c4 48%, #f2b46b 100%)",
+      "linear-gradient(160deg, #6b3e26 0%, #9a6b4b 48%, #f2b46b 100%)",
       "linear-gradient(200deg, #df7900 0%, #f1c38f 58%, #f7ece0 100%)",
-      "linear-gradient(150deg, #14110d 0%, #0b3a7a 62%, #7d9fd8 100%)",
+      "linear-gradient(150deg, #14110d 0%, #5a3520 62%, #c49a78 100%)",
       "linear-gradient(170deg, #efe2d3 0%, #e9b278 55%, #df7900 100%)",
       "radial-gradient(circle at 30% 22%, #f8dcb8 0%, #df7900 52%, #6e3800 100%)",
-      "linear-gradient(140deg, #d6e1f2 0%, #6c93d1 50%, #0049a4 100%)",
+      "linear-gradient(140deg, #eadbcb 0%, #b08462 50%, #6b3e26 100%)",
       "linear-gradient(185deg, #2a231b 0%, #6b4a2a 50%, #df7900 100%)",
-      "radial-gradient(circle at 70% 25%, #ffffff 0%, #c9d8ef 35%, #0049a4 100%)"
+      "radial-gradient(circle at 70% 25%, #ffffff 0%, #e2cdb8 35%, #6b3e26 100%)"
     ];
 
     /* COMO TROCAR UM BLOCO DE GRADIENTE POR UMA FOTO REAL:
@@ -619,18 +621,18 @@
         // Os três números curtos que aparecem abaixo dos botões.
         numeros: [
           { valor: "180+", rotulo: "vídeos entregues" },
-          { valor: "45", rotulo: "marcas atendidas" },
+          { valor: "60+", rotulo: "marcas atendidas" },
           { valor: "12M", rotulo: "views somadas" }
         ],
         // Foto da capa (veja acima como trocar o gradiente por uma foto real).
         foto: { imagem: "", alt: "Julia Neves sorrindo e segurando um produto em frente à câmera", cor: 0 },
         // Cartãozinho que fica por cima da foto.
-        cartaoNumero: "+2,4M views",
+        cartaoNumero: "+2,2M views",
         cartaoTexto: "no vídeo mais visto do ano"
       },
 
-      // EDITE AQUI: nomes das marcas com quem você já trabalhou (faixa que desliza na capa).
-      marcas: ["Casa Lume", "Bella Pele", "Sabor da Vila", "Ateliê Aurora", "Move Fit", "Nuvem Baby", "Café Serrano", "Lar e Cor"],
+      // EDITE AQUI: nichos em que você já trabalhou (faixa que desliza na capa).
+      marcas: ["Lar e decoração", "Moda e acessórios", "Beleza", "Haircare", "Skincare", "Saúde", "Tecnologia", "Gastronomia"],
 
       // EDITE AQUI: a seção Sobre mim.
       sobre: {
@@ -663,7 +665,7 @@
         intro: "Três conteúdos que mostram o que eu faço melhor: prender a atenção, gerar desejo e levar a pessoa até a compra.",
         itens: [
           {
-            numero: "+2,4M", rotulo: "views no reels",
+            numero: "+2,2M", rotulo: "de visualizações",
             titulo: "Rotina de skincare em 30 segundos",
             contexto: "Vídeo para marca de dermocosméticos que esgotou o sérum em 48 horas.",
             link: "#", capa: "", alt: "Capa do vídeo de rotina de skincare", formato: "Reels", cor: 0
@@ -728,7 +730,7 @@
           { valor: 4.9, casas: 1, prefixo: "", sufixo: "", rotulo: "nota média das marcas" },
           { valor: 87, casas: 0, prefixo: "", sufixo: "%", rotulo: "das marcas me recontratam" },
           { valor: 5, casas: 0, prefixo: "", sufixo: " dias", rotulo: "de prazo médio de entrega" },
-          { valor: 2.4, casas: 1, prefixo: "+", sufixo: "M", rotulo: "de alcance no maior vídeo" }
+          { valor: 2.2, casas: 1, prefixo: "+", sufixo: "M", rotulo: "de alcance no maior vídeo" }
         ],
         resultadosTitulo: "Resultados de *campanha*",
         resultados: [
@@ -836,7 +838,7 @@
     // Faixa de marcas: a lista aparece duas vezes para o movimento ser contínuo (a cópia fica escondida do leitor de tela).
     const listaMarcas = C.marcas.map((m) => `<li>${esc(m)}</li>`).join("");
     $("#marcas").innerHTML = `
-      <h2 class="sr-only">Marcas com quem já trabalhei</h2>
+      <h2 class="sr-only">Nichos em que já trabalhei</h2>
       <div class="marcas-trilho">
         <ul>${listaMarcas}</ul>
         <ul aria-hidden="true">${listaMarcas}</ul>

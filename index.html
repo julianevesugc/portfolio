@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julia Neves | Criadora de Conteúdo UGC</title>
+  <meta name="description" content="Julia Neves, criadora de conteúdo UGC. Vídeos autênticos que fazem marcas venderem mais: UGC para anúncios, unboxing, fotos de produto e pacotes mensais.">
+  <meta name="theme-color" content="#f3eee9">
+
+  <!-- Fontes do Google: Fraunces (títulos) e Plus Jakarta Sans (textos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       CORES, FONTES E MEDIDAS DO SITE
+       Para mudar a paleta, edite só as variáveis abaixo.
+       ========================================================= */
+    :root {
+      --creme: #f3eee9;
+      --creme-escuro: #e9e1d8;
+      --branco: #fffcf8;
+      --tinta: #14110d;
+      --tinta-suave: #4a433b;
+      --linha: rgba(20, 17, 13, 0.12);
+      --azul: #0049a4;
+      --azul-escuro: #00387f;
+      --laranja: #df7900;          /* uso decorativo e sobre fundo escuro */
+      --laranja-texto: #9a5200;    /* versão mais escura para texto pequeno sobre o creme (contraste acessível) */
+
+      --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      --raio: 16px;
+      --raio-sm: 10px;
+      --sombra: 0 1px 2px rgba(20, 17, 13, 0.04), 0 14px 36px -16px rgba(20, 17, 13, 0.22);
+      --sombra-forte: 0 2px 4px rgba(20, 17, 13, 0.05), 0 28px 60px -24px rgba(20, 17, 13, 0.32);
+
+      --container: 1180px;
+      --respiro: clamp(16px, 4vw, 40px);
+      --altura-menu: 72px;
+      --secao: clamp(80px, 11vw, 150px);
+    }
+
+    /* ===== Base ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+    body {
+      margin: 0;
+      background: var(--creme);
+      color: var(--tinta);
+      font-family: var(--sans);
+      font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+    h1 em, h2 em, h3 em { font-style: italic; font-weight: 300; color: var(--azul); }
+    p { margin: 0; }
+    ::selection { background: var(--azul); color: var(--creme); }
+
+    :focus-visible { outline: 3px solid var(--azul); outline-offset: 3px; border-radius: 4px; }
+
+    .sr-only {
+      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .pular-link {
+      position: absolute; left: 16px; top: -60px; z-index: 200;
+      background: var(--tinta); color: var(--creme); padding: 10px 18px; border-radius: 999px;
+      text-decoration: none; font-weight: 600; transition: top .2s;
+    }
+    .pular-link:focus { top: 12px; }
+
+    .container { width: min(var(--container), 100% - 2 * var(--respiro)); margin-inline: auto; }
+    section { scroll-margin-top: var(--altura-menu); }
+    .secao { padding-block: var(--secao); }
+
+    /* Cabeçalho de cada seção */
+    .rotulo {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--azul); margin-bottom: 20px;
+    }
+    .rotulo::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--laranja); flex: none; }
+    .titulo-secao { font-size: clamp(2.3rem, 1.6rem + 3.4vw, 4.2rem); max-width: 16ch; }
+    .intro-secao { color: var(--tinta-suave); max-width: 52ch; margin-top: 20px; font-size: 1.05em; }
+    .cabeca-secao { margin-bottom: clamp(40px, 6vw, 72px); }
+    .cabeca-secao--linha { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px; }
+
+    /* Botões */
+    .botao {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 52px; padding: 14px 28px; border-radius: 999px;
+      font-family: var(--sans); font-size: 0.98rem; font-weight: 600; text-decoration: none;
+      border: 1.5px solid transparent; cursor: pointer;
+      transition: transform .25s ease, background-color .25s ease, color .25s ease, box-shadow .25s ease;
+    }
+    .botao:hover { transform: translateY(-2px); }
+    .botao--principal { background: var(--azul); color: var(--branco); box-shadow: 0 10px 24px -12px rgba(0, 73, 164, .7); }
+    .botao--principal:hover { background: var(--azul-escuro); }
+    .botao--contorno { border-color: var(--tinta); color: var(--tinta); background: transparent; }
+    .botao--contorno:hover { background: var(--tinta); color: var(--creme); }
+    .seta { transition: transform .25s ease; }
+    .botao:hover .seta, a:hover > .seta { transform: translateX(4px); }
+
+    /* Blocos de imagem (gradiente ou foto real) */
+    .midia {
+      position: relative; width: 100%; border-radius: var(--raio); overflow: hidden;
+      background-color: var(--creme-escuro); object-fit: cover;
+    }
+    div.midia::after {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(120% 70% at 18% 8%, rgba(255, 252, 248, .45), transparent 55%),
+        radial-gradient(60% 40% at 85% 95%, rgba(20, 17, 13, .18), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* =========================================================
+       1. MENU FIXO
+       ========================================================= */
+    .topo {
+      position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--altura-menu);
+      display: flex; align-items: center;
+      transition: background-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
+    }
+    .topo.rolado, .topo.menu-aberto {
+      background: rgba(243, 238, 233, .9);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 var(--linha);
+    }
+    .topo-interno { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo {
+      font-family: var(--serif); font-size: 1.45rem; text-decoration: none; letter-spacing: -0.02em;
+      display: inline-flex; align-items: baseline; gap: 2px; white-space: nowrap;
+    }
+    .logo em { font-style: italic; font-weight: 300; color: var(--azul); }
+    .logo .ponto { color: var(--laranja); }
+
+    .menu { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); list-style: none; margin: 0; padding: 0; }
+    .menu a {
+      text-decoration: none; font-size: 0.93rem; font-weight: 500; position: relative; padding: 6px 0;
+    }
+    .menu a::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px;
+      background: var(--laranja); transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+    }
+    .menu a:hover::after, .menu a[aria-current="true"]::after { transform: scaleX(1); }
+    .menu .menu-cta {
+      background: var(--tinta); color: var(--creme); padding: 10px 20px; border-radius: 999px;
+      transition: background-color .25s ease;
+    }
+    .menu .menu-cta::after { display: none; }
+    .menu .menu-cta:hover { background: var(--azul); }
+
+    .menu-botao {
+      display: none; width: 48px; height: 48px; border: 0; background: transparent; cursor: pointer;
+      border-radius: 50%; position: relative; color: var(--tinta);
+    }
+    .menu-botao span {
+      position: absolute; left: 13px; width: 22px; height: 1.8px; background: currentColor; border-radius: 2px;
+      transition: transform .3s ease, opacity .2s ease, top .3s ease;
+    }
+    .menu-botao span:nth-child(1) { top: 17px; }
+    .menu-botao span:nth-child(2) { top: 23px; }
+    .menu-botao span:nth-child(3) { top: 29px; }
+    .menu-botao[aria-expanded="true"] span:nth-child(1) { top: 23px; transform: rotate(45deg); }
+    .menu-botao[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .menu-botao[aria-expanded="true"] span:nth-child(3) { top: 23px; transform: rotate(-45deg); }
+
+    @media (max-width: 899px) {
+      .menu-botao { display: block; }
+      .menu {
+        position: fixed; top: var(--altura-menu); left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 0;
+        padding: 12px var(--respiro) 32px;
+        background: rgba(243, 238, 233, .98);
+        box-shadow: 0 24px 40px -24px rgba(20, 17, 13, .3);
+        max-height: calc(100svh - var(--altura-menu)); overflow-y: auto;
+        opacity: 0; visibility: hidden; transform: translateY(-10px);
+        transition: opacity .3s ease, transform .3s ease, visibility 0s linear .3s;
+      }
+      .menu.aberto { opacity: 1; visibility: visible; transform: none; transition: opacity .3s ease, transform .3s ease; }
+      .menu li { border-bottom: 1px solid var(--linha); }
+      .menu li:last-child { border-bottom: 0; padding-top: 20px; }
+      .menu a { display: block; font-family: var(--serif); font-size: 1.7rem; font-weight: 400; padding: 14px 0; }
+      .menu a::after { display: none; }
+      .menu .menu-cta { font-family: var(--sans); font-size: 1rem; font-weight: 600; text-align: center; padding: 16px; }
+    }
+
+    /* =========================================================
+       1. CAPA
+       ========================================================= */
+    .capa { padding-top: calc(var(--altura-menu) + clamp(32px, 6vw, 72px)); }
+    .capa-grade {
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(40px, 6vw, 88px); align-items: center;
+      padding-bottom: clamp(56px, 8vw, 96px);
+    }
+    .capa-selo {
+      display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 12px;
+      border: 1px solid var(--linha); border-radius: 999px; background: rgba(255, 252, 248, .6);
+      font-size: 0.85rem; font-weight: 500; margin-bottom: 28px;
+    }
+    .capa-selo .pulso { width: 8px; height: 8px; border-radius: 50%; background: var(--laranja); position: relative; }
+    .capa-selo .pulso::after {
+      content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--laranja);
+      animation: pulso 2.4s ease-out infinite;
+    }
+    @keyframes pulso { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
+
+    .capa h1 { font-size: clamp(3.4rem, 1.4rem + 9vw, 8.4rem); line-height: 0.92; letter-spacing: -0.035em; }
+    .capa h1 em { display: block; }
+    .capa-profissao {
+      margin-top: 22px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--laranja-texto);
+    }
+    .capa-frase { margin-top: 18px; font-size: clamp(1.08rem, 1rem + 0.4vw, 1.3rem); color: var(--tinta-suave); max-width: 36ch; line-height: 1.55; }
+    .capa-botoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+
+    .capa-numeros {
+      display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: clamp(24px, 4vw, 52px);
+      margin: 48px 0 0; padding-top: 28px; border-top: 1px solid var(--linha);
+    }
+    .capa-numeros div { display: flex; flex-direction: column-reverse; }
+    .capa-numeros dt { font-size: 0.85rem; color: var(--tinta-suave); margin-top: 4px; }
+    .capa-numeros dd { margin: 0; font-family: var(--serif); font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem); line-height: 1; color: var(--azul); }
+
+    .capa-foto { position: relative; }
+    .capa-foto .midia { aspect-ratio: 4 / 5; box-shadow: var(--sombra-forte); }
+    .capa-foto::before {
+      content: ""; position: absolute; width: 58%; aspect-ratio: 1; border-radius: 50%;
+      border: 1.5px solid var(--laranja); top: -6%; right: -8%; z-index: -1; opacity: .6;
+    }
+    .capa-cartao {
+      position: absolute; left: clamp(-36px, -3vw, -12px); bottom: 9%;
+      background: var(--branco); border-radius: var(--raio-sm); padding: 14px 18px; box-shadow: var(--sombra-forte);
+      display: flex; align-items: center; gap: 12px; max-width: 250px;
+    }
+    .capa-cartao .play-mini {
+      flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--azul); display: grid; place-items: center;
+    }
+    .capa-cartao strong { display: block; font-family: var(--serif); font-size: 1.25rem; font-weight: 500; line-height: 1.1; }
+    .capa-cartao small { font-size: 0.8rem; color: var(--tinta-suave); line-height: 1.3; display: block; }
+
+    /* Faixa de marcas */
+    .marcas { border-block: 1px solid var(--linha); padding: 22px 0; overflow: hidden; }
+    .marcas-legenda { position: absolute; }
+    .marcas-trilho { display: flex; width: max-content; animation: deslizar 42s linear infinite; }
+    .marcas:hover .marcas-trilho { animation-play-state: paused; }
+    .marcas ul { display: flex; list-style: none; margin: 0; padding: 0; }
+    .marcas li {
+      display: flex; align-items: center; white-space: nowrap;
+      font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.25rem, 1rem + 1vw, 1.7rem); color: var(--tinta);
+    }
+    .marcas li::after { content: "✦"; font-style: normal; font-size: 0.7em; color: var(--laranja); margin-inline: clamp(24px, 4vw, 48px); }
+    @keyframes deslizar { to { transform: translateX(-50%); } }
+
+    /* =========================================================
+       2. SOBRE
+       ========================================================= */
+    .sobre-grade { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(40px, 7vw, 110px); align-items: center; }
+    .sobre-foto { position: relative; }
+    .sobre-foto .midia { aspect-ratio: 4 / 5; box-shadow: var(--sombra); }
+    .sobre-foto .legenda-foto {
+      position: absolute; right: 18px; bottom: 18px; background: var(--creme); padding: 8px 14px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .sobre-texto p + p { margin-top: 18px; }
+    .sobre-texto .paragrafos { color: var(--tinta-suave); margin-top: 28px; max-width: 58ch; }
+    .sobre-texto .paragrafos p:first-child { font-family: var(--serif); font-size: clamp(1.25rem, 1.1rem + .6vw, 1.55rem); line-height: 1.4; color: var(--tinta); }
+    .entregas { margin-top: 40px; padding: clamp(24px, 3vw, 32px); background: var(--branco); border-radius: var(--raio); box-shadow: var(--sombra); }
+    .entregas h3 { font-size: 1.35rem; margin-bottom: 18px; }
+    .entregas ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+    .entregas li { position: relative; padding-left: 30px; font-size: 0.95rem; line-height: 1.5; }
+    .entregas li::before {
+      content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--azul) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fffcf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+    }
+
+    /* =========================================================
+       3. DESTAQUES
+       ========================================================= */
+    .destaques { background: var(--branco); }
+    .destaques-grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 40px); }
+    .destaque {
+      display: block; text-decoration: none; border-radius: var(--raio); outline-offset: 6px;
+    }
+    .destaque-capa { position: relative; }
+    .destaque-capa .midia { aspect-ratio: 9 / 16; box-shadow: var(--sombra); transition: transform .5s cubic-bezier(.2, .7, .2, 1), box-shadow .5s ease; }
+    .destaque:hover .destaque-capa .midia, .destaque:focus-visible .destaque-capa .midia { transform: translateY(-6px); box-shadow: var(--sombra-forte); }
+    .play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center;
+      background: rgba(255, 252, 248, .92); box-shadow: 0 12px 30px -10px rgba(20, 17, 13, .45);
+      transition: transform .35s ease, background-color .35s ease; z-index: 2;
+    }
+    .play svg { margin-left: 4px; fill: var(--tinta); transition: fill .35s ease; }
+    .destaque:hover .play { transform: translate(-50%, calc(-50% - 6px)) scale(1.08); background: var(--azul); }
+    .destaque:hover .play svg { fill: var(--branco); }
+    .destaque-tag {
+      position: absolute; top: 16px; left: 16px; z-index: 2; background: rgba(20, 17, 13, .78); color: var(--creme);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px;
+    }
+    .destaque-info { padding-top: 24px; }
+    .destaque-numero { font-family: var(--serif); font-size: clamp(2.4rem, 2rem + 1.6vw, 3.2rem); line-height: 1; color: var(--azul); letter-spacing: -0.03em; }
+    .destaque-rotulo { font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--laranja-texto); margin-top: 8px; }
+    .destaque h3 { font-size: 1.4rem; margin-top: 16px; display: flex; align-items: baseline; gap: 8px; }
+    .destaque-contexto { color: var(--tinta-suave); margin-top: 8px; font-size: 0.95rem; }
+
+    /* =========================================================
+       4. TRABALHOS
+       ========================================================= */
+    .filtros { display: flex; flex-wrap: wrap; gap: 10px; }
+    .filtro {
+      font-family: var(--sans); font-size: 0.92rem; font-weight: 500; color: var(--tinta);
+      background: transparent; border: 1px solid var(--linha); border-radius: 999px;
+      min-height: 44px; padding: 10px 20px; cursor: pointer; transition: all .25s ease;
+    }
+    .filtro:hover { border-color: var(--tinta); }
+    .filtro[aria-pressed="true"] { background: var(--tinta); color: var(--creme); border-color: var(--tinta); }
+    .trabalhos-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: clamp(20px, 2.6vw, 32px); }
+    .trabalho .midia { aspect-ratio: 4 / 5; transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+    .trabalho-figura { overflow: hidden; border-radius: var(--raio); position: relative; box-shadow: var(--sombra); }
+    .trabalho:hover .midia { transform: scale(1.04); }
+    .trabalho-formato {
+      position: absolute; top: 14px; right: 14px; z-index: 2; background: var(--creme); font-size: 0.75rem; font-weight: 600;
+      padding: 5px 12px; border-radius: 999px;
+    }
+    .trabalho-info { padding-top: 16px; }
+    .trabalho-categoria { font-size: 0.75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--azul); }
+    .trabalho h3 { font-size: 1.3rem; margin-top: 6px; }
+    .trabalho-marca { font-size: 0.9rem; color: var(--tinta-suave); margin-top: 4px; }
+    .trabalho[hidden] { display: none; }
+    .trabalho.surgindo { animation: surgir .5s cubic-bezier(.2, .7, .2, 1) both; }
+    @keyframes surgir { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+    /* =========================================================
+       5. SERVIÇOS
+       ========================================================= */
+    .servicos { background: var(--creme-escuro); }
+    .servicos-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: clamp(16px, 2vw, 24px); }
+    .servico {
+      background: var(--branco); border-radius: var(--raio); padding: clamp(28px, 3vw, 36px); box-shadow: var(--sombra);
+      display: flex; flex-direction: column; transition: transform .35s ease, box-shadow .35s ease;
+    }
+    .servico:hover { transform: translateY(-4px); box-shadow: var(--sombra-forte); }
+    .servico-numero { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 1.1rem; color: var(--laranja-texto); }
+    .servico h3 { font-size: 1.65rem; margin-top: 28px; }
+    .servico p { color: var(--tinta-suave); margin-top: 12px; font-size: 0.97rem; }
+    .servico-ideal { margin-top: auto; padding-top: 24px; font-size: 0.85rem; font-weight: 600; color: var(--azul); }
+    .servico-ideal span { display: block; border-top: 1px solid var(--linha); padding-top: 16px; }
+
+    /* =========================================================
+       6. NÚMEROS E DEPOIMENTOS
+       ========================================================= */
+    .contadores { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--linha); }
+    .contador { padding: clamp(28px, 4vw, 48px) clamp(12px, 2vw, 28px); text-align: center; }
+    .contador + .contador { border-left: 1px solid var(--linha); }
+    .contador-numero { font-family: var(--serif); font-size: clamp(2.6rem, 1.8rem + 3vw, 4.4rem); line-height: 1; color: var(--azul); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .contador-rotulo { margin-top: 12px; font-size: 0.9rem; color: var(--tinta-suave); }
+
+    .subtitulo-bloco { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem); margin: clamp(64px, 8vw, 100px) 0 28px; }
+    .resultados-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(16px, 2vw, 24px); }
+    .resultado {
+      background: var(--azul); color: var(--branco); border-radius: var(--raio); padding: clamp(28px, 3vw, 36px);
+      position: relative; overflow: hidden;
+    }
+    .resultado::before { content: ""; position: absolute; top: 0; left: 0; width: 56px; height: 4px; background: var(--laranja); }
+    .resultado-marca { font-size: 0.78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+    .resultado-metrica { font-family: var(--serif); font-size: clamp(2.8rem, 2.2rem + 2vw, 3.8rem); line-height: 1; margin-top: 22px; letter-spacing: -0.03em; }
+    .resultado-rotulo { font-weight: 600; margin-top: 8px; }
+    .resultado p:last-child { margin-top: 16px; font-size: 0.93rem; opacity: .88; }
+
+    .depoimentos-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: clamp(16px, 2vw, 24px); }
+    .depoimento {
+      margin: 0; background: var(--branco); border-radius: var(--raio); padding: clamp(28px, 3vw, 36px); box-shadow: var(--sombra);
+      display: flex; flex-direction: column;
+    }
+    .depoimento::before { content: "\201C"; font-family: var(--serif); font-size: 4.5rem; line-height: .7; color: var(--laranja); height: 36px; }
+    .depoimento blockquote { margin: 0; font-family: var(--serif); font-size: 1.12rem; line-height: 1.55; }
+    .depoimento figcaption { margin-top: auto; padding-top: 24px; display: flex; align-items: center; gap: 14px; }
+    .avatar {
+      flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+      font-family: var(--serif); font-size: 1.1rem; color: var(--branco);
+    }
+    .depoimento strong { display: block; font-size: 0.95rem; }
+    .depoimento span.empresa { font-size: 0.85rem; color: var(--tinta-suave); }
+    .estrelas { color: var(--laranja-texto); letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 14px; }
+
+    /* =========================================================
+       7. CONTATO
+       ========================================================= */
+    .contato { background: var(--tinta); color: var(--creme); }
+    .contato .rotulo { color: var(--laranja); }
+    .contato .titulo-secao em { color: var(--laranja); }
+    .contato .intro-secao { color: rgba(243, 238, 233, .78); }
+    .contato :focus-visible { outline-color: var(--laranja); }
+    .contato-grade { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 7vw, 100px); align-items: start; }
+    .contato-diretos { list-style: none; margin: 40px 0 0; padding: 0; border-top: 1px solid rgba(243, 238, 233, .16); }
+    .contato-diretos li { border-bottom: 1px solid rgba(243, 238, 233, .16); }
+    .contato-diretos a {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; text-decoration: none;
+    }
+    .contato-diretos .canal { font-size: 0.78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(243, 238, 233, .7); display: block; }
+    .contato-diretos .valor { font-family: var(--serif); font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem); overflow-wrap: anywhere; }
+    .contato-diretos .seta { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(243, 238, 233, .3); display: grid; place-items: center; transition: all .25s ease; }
+    .contato-diretos a:hover .seta { background: var(--laranja); border-color: var(--laranja); color: var(--tinta); transform: none; }
+
+    .formulario { background: var(--creme); color: var(--tinta); border-radius: var(--raio); padding: clamp(24px, 4vw, 44px); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+    .formulario h3 { font-size: 1.7rem; }
+    .formulario > p { color: var(--tinta-suave); margin-top: 8px; font-size: 0.95rem; }
+    .formulario :focus-visible { outline-color: var(--azul); }
+    .campo { margin-top: 22px; }
+    .campo label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; }
+    .campo input, .campo textarea {
+      width: 100%; font: inherit; font-size: 1rem; color: var(--tinta); background: var(--branco);
+      border: 1.5px solid var(--linha); border-radius: var(--raio-sm); padding: 14px 16px; transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .campo textarea { min-height: 140px; resize: vertical; }
+    .campo input:focus, .campo textarea:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 4px rgba(0, 73, 164, .15); }
+    .campo input[aria-invalid="true"], .campo textarea[aria-invalid="true"] { border-color: #b3261e; }
+    .erro-campo { color: #b3261e; font-size: 0.85rem; margin-top: 6px; min-height: 0; }
+    .formulario .botao { width: 100%; margin-top: 28px; }
+    .form-status { margin-top: 18px; font-size: 0.95rem; border-radius: var(--raio-sm); }
+    .form-status:not(:empty) { padding: 14px 16px; background: rgba(0, 73, 164, .08); color: var(--azul-escuro); }
+
+    /* =========================================================
+       8. RODAPÉ
+       ========================================================= */
+    .rodape { padding: clamp(56px, 8vw, 96px) 0 32px; }
+    .rodape-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 32px; padding-bottom: 40px; border-bottom: 1px solid var(--linha); }
+    .rodape-nome { font-family: var(--serif); font-size: clamp(2.6rem, 1.6rem + 5vw, 5.5rem); line-height: .95; letter-spacing: -0.035em; }
+    .rodape-nome em { font-style: italic; font-weight: 300; color: var(--azul); }
+    .rodape-frase { color: var(--tinta-suave); margin-top: 12px; }
+    .redes { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 0; padding: 0; }
+    .redes a {
+      display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 18px; border: 1px solid var(--linha);
+      border-radius: 999px; text-decoration: none; font-size: 0.92rem; font-weight: 500; transition: all .25s ease;
+    }
+    .redes a:hover { background: var(--tinta); color: var(--creme); border-color: var(--tinta); }
+    .rodape-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 24px; font-size: 0.85rem; color: var(--tinta-suave); }
+    .rodape-base a { text-decoration: none; }
+    .rodape-base a:hover { color: var(--azul); }
+
+    /* =========================================================
+       ANIMAÇÃO DE ENTRADA AO ROLAR
+       ========================================================= */
+    .js .revelar { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--atraso, 0s); }
+    .js .revelar.visivel { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .js .revelar { opacity: 1; transform: none; }
+      .marcas-trilho { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+      .marcas ul[aria-hidden="true"] { display: none; }
+      .marcas ul { flex-wrap: wrap; justify-content: center; row-gap: 8px; }
+    }
+
+    /* =========================================================
+       AJUSTES PARA TABLET E CELULAR
+       ========================================================= */
+    @media (max-width: 999px) {
+      .capa-grade { grid-template-columns: 1fr; }
+      .capa-foto { max-width: 520px; width: 100%; margin-inline: auto; }
+      .capa-cartao { left: 12px; }
+      .sobre-grade, .contato-grade { grid-template-columns: 1fr; }
+      .sobre-foto { max-width: 520px; }
+      .contadores { grid-template-columns: repeat(2, 1fr); }
+      .contador:nth-child(3) { border-left: 0; }
+      .contador:nth-child(n + 3) { border-top: 1px solid var(--linha); }
+    }
+    @media (max-width: 759px) {
+      .destaques-grade { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; gap: 56px; }
+      .entregas ul { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      :root { --altura-menu: 64px; }
+      .capa-botoes .botao { flex: 1 1 100%; }
+      .capa-numeros { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .capa-foto::before { right: -4%; }
+      .contador { padding-inline: 8px; }
+      .cabeca-secao--linha { display: block; }
+      .cabeca-secao--linha .filtros { margin-top: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="pular-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- O conteúdo de todas as seções é preenchido automaticamente
+       a partir do objeto CONFIG, que fica no topo da tag <script> lá embaixo. -->
+
+  <header class="topo" id="topo">
+    <div class="container topo-interno">
+      <a class="logo" href="#inicio" id="logo"></a>
+      <nav aria-label="Menu principal">
+        <button class="menu-botao" id="menu-botao" type="button" aria-expanded="false" aria-controls="menu">
+          <span></span><span></span><span></span>
+          <span class="sr-only">Abrir menu</span>
+        </button>
+        <ul class="menu" id="menu"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- 1. CAPA -->
+    <section class="capa" id="inicio" aria-labelledby="capa-titulo">
+      <div class="container capa-grade" id="capa-conteudo"></div>
+      <div class="marcas" id="marcas"></div>
+    </section>
+
+    <!-- 2. SOBRE MIM -->
+    <section class="secao" id="sobre" aria-labelledby="sobre-titulo">
+      <div class="container sobre-grade" id="sobre-conteudo"></div>
+    </section>
+
+    <!-- 3. CONTEÚDOS DE DESTAQUE -->
+    <section class="secao destaques" id="destaques" aria-labelledby="destaques-titulo">
+      <div class="container" id="destaques-conteudo"></div>
+    </section>
+
+    <!-- 4. TRABALHOS POR NICHO -->
+    <section class="secao" id="trabalhos" aria-labelledby="trabalhos-titulo">
+      <div class="container" id="trabalhos-conteudo"></div>
+    </section>
+
+    <!-- 5. COMO EU TE AJUDO -->
+    <section class="secao servicos" id="servicos" aria-labelledby="servicos-titulo">
+      <div class="container" id="servicos-conteudo"></div>
+    </section>
+
+    <!-- 6. NÚMEROS E DEPOIMENTOS -->
+    <section class="secao" id="numeros" aria-labelledby="numeros-titulo">
+      <div class="container" id="numeros-conteudo"></div>
+    </section>
+
+    <!-- 7. BORA CRIAR JUNTOS -->
+    <section class="secao contato" id="contato" aria-labelledby="contato-titulo">
+      <div class="container contato-grade" id="contato-conteudo"></div>
+    </section>
+  </main>
+
+  <!-- 8. RODAPÉ -->
+  <footer class="rodape">
+    <div class="container" id="rodape-conteudo"></div>
+  </footer>
+
+  <script>
+    /* =====================================================================
+       ÁREA DE EDIÇÃO
+       Todo o texto do site está aqui. Edite só o que está entre aspas "".
+       Dica: palavras entre *asteriscos* aparecem em itálico azul nos títulos.
+       ===================================================================== */
+
+    // EDITE AQUI: cores dos blocos que simulam as fotos e vídeos.
+    // Cada item da lista é um gradiente. Nos blocos abaixo, "cor: 0" usa o primeiro, "cor: 1" o segundo, e assim por diante.
+    const GRADIENTES = [
+      "linear-gradient(160deg, #0049a4 0%, #3d72c4 48%, #f2b46b 100%)",
+      "linear-gradient(200deg, #df7900 0%, #f1c38f 58%, #f7ece0 100%)",
+      "linear-gradient(150deg, #14110d 0%, #0b3a7a 62%, #7d9fd8 100%)",
+      "linear-gradient(170deg, #efe2d3 0%, #e9b278 55%, #df7900 100%)",
+      "radial-gradient(circle at 30% 22%, #f8dcb8 0%, #df7900 52%, #6e3800 100%)",
+      "linear-gradient(140deg, #d6e1f2 0%, #6c93d1 50%, #0049a4 100%)",
+      "linear-gradient(185deg, #2a231b 0%, #6b4a2a 50%, #df7900 100%)",
+      "radial-gradient(circle at 70% 25%, #ffffff 0%, #c9d8ef 35%, #0049a4 100%)"
+    ];
+
+    /* COMO TROCAR UM BLOCO DE GRADIENTE POR UMA FOTO REAL:
+       1. Coloque a foto na mesma pasta deste arquivo (exemplo: julia-capa.jpg).
+       2. No bloco desejado, preencha o campo imagem: "julia-capa.jpg".
+       3. Escreva no campo alt uma descrição curta do que aparece na foto (ajuda quem usa leitor de tela).
+       Com o campo imagem vazio (""), o site mostra o gradiente no lugar. */
+
+    const CONFIG = {
+
+      // EDITE AQUI: seus dados principais.
+      nome: "Julia Neves",
+      profissao: "Criadora de conteúdo UGC",
+
+      // EDITE AQUI: seus contatos (o WhatsApp vai com 55 + DDD + número, só números).
+      contato: {
+        email: "juoliveiranevesugc@gmail.com",
+        whatsapp: "5519982737596",
+        whatsappExibicao: "(19) 98273-7596",
+        mensagemWhatsApp: "Oi, Julia! Vi seu portfólio e quero conversar sobre conteúdo UGC para a minha marca.",
+        assuntoEmail: "Proposta de parceria UGC"
+      },
+
+      // EDITE AQUI: suas redes sociais (o @ aparece no site, o link é para onde a pessoa vai ao clicar).
+      redes: [
+        { nome: "Instagram", usuario: "@juoliveiraneves", link: "https://www.instagram.com/juoliveiraneves" },
+        { nome: "TikTok", usuario: "@juoliveiraneves", link: "https://www.tiktok.com/@juoliveiraneves" }
+      ],
+
+      // EDITE AQUI: os links do menu do topo (o "alvo" é o id da seção, não mude).
+      menu: [
+        { texto: "Sobre", alvo: "sobre" },
+        { texto: "Destaques", alvo: "destaques" },
+        { texto: "Trabalhos", alvo: "trabalhos" },
+        { texto: "Serviços", alvo: "servicos" },
+        { texto: "Números", alvo: "numeros" },
+        { texto: "Contato", alvo: "contato" }
+      ],
+
+      // EDITE AQUI: a capa (primeira tela do site).
+      capa: {
+        selo: "Agenda aberta para novos projetos",
+        frase: "Eu crio vídeos que parecem conversa de amiga e vendem como anúncio. Conteúdo autêntico para a sua marca ganhar confiança, engajamento e vendas.",
+        botaoPrincipal: "Falar comigo",
+        botaoSecundario: "Ver os trabalhos",
+        // Os três números curtos que aparecem abaixo dos botões.
+        numeros: [
+          { valor: "180+", rotulo: "vídeos entregues" },
+          { valor: "45", rotulo: "marcas atendidas" },
+          { valor: "12M", rotulo: "views somadas" }
+        ],
+        // Foto da capa (veja acima como trocar o gradiente por uma foto real).
+        foto: { imagem: "", alt: "Julia Neves sorrindo e segurando um produto em frente à câmera", cor: 0 },
+        // Cartãozinho que fica por cima da foto.
+        cartaoNumero: "+2,4M views",
+        cartaoTexto: "no vídeo mais visto do ano"
+      },
+
+      // EDITE AQUI: nomes das marcas com quem você já trabalhou (faixa que desliza na capa).
+      marcas: ["Casa Lume", "Bella Pele", "Sabor da Vila", "Ateliê Aurora", "Move Fit", "Nuvem Baby", "Café Serrano", "Lar e Cor"],
+
+      // EDITE AQUI: a seção Sobre mim.
+      sobre: {
+        rotulo: "Sobre mim",
+        titulo: "Prazer, eu sou a *Julia*",
+        paragrafos: [
+          "Eu transformo produtos em histórias que as pessoas querem assistir até o fim.",
+          "Sou criadora de conteúdo UGC e gravo do jeito que o seu cliente consome: vertical, natural e direto ao ponto. Cada vídeo nasce de um roteiro pensado para o seu público, com gancho forte nos primeiros segundos e uma chamada clara para a ação.",
+          "Gravo em casa, em ambientes reais e bem iluminados, com áudio limpo e edição caprichada. O resultado é um conteúdo que gera identificação, passa confiança e funciona tanto no seu perfil quanto nos seus anúncios."
+        ],
+        entregasTitulo: "O que vai junto com cada vídeo",
+        entregas: [
+          "Roteiro aprovado antes da gravação",
+          "Gravação vertical em alta resolução",
+          "Legendas, cortes dinâmicos e trilha",
+          "Variações de abertura para testar anúncios",
+          "Arquivos brutos para sua equipe",
+          "Até duas rodadas de ajustes"
+        ],
+        foto: { imagem: "", alt: "Julia Neves gravando um vídeo com o celular em um tripé, em casa", cor: 3 },
+        legendaFoto: "Bastidores de gravação"
+      },
+
+      // EDITE AQUI: seus três melhores conteúdos.
+      // "link" é onde entra o endereço do vídeo (Instagram, TikTok, YouTube ou Google Drive).
+      // "capa" é onde entra a imagem de capa vertical 9:16 (exemplo: "capa-skincare.jpg"). Vazio mostra o gradiente.
+      destaques: {
+        rotulo: "Conteúdos de destaque",
+        titulo: "Os vídeos que *mais* deram resultado",
+        intro: "Três conteúdos que mostram o que eu faço melhor: prender a atenção, gerar desejo e levar a pessoa até a compra.",
+        itens: [
+          {
+            numero: "+2,4M", rotulo: "views no reels",
+            titulo: "Rotina de skincare em 30 segundos",
+            contexto: "Vídeo para marca de dermocosméticos que esgotou o sérum em 48 horas.",
+            link: "#", capa: "", alt: "Capa do vídeo de rotina de skincare", formato: "Reels", cor: 0
+          },
+          {
+            numero: "8,7%", rotulo: "de cliques no anúncio",
+            titulo: "Primeiras impressões da air fryer",
+            contexto: "Criativo que virou o campeão de vendas da campanha de lançamento.",
+            link: "#", capa: "", alt: "Capa do vídeo de unboxing da air fryer", formato: "Anúncio", cor: 4
+          },
+          {
+            numero: "+31 mil", rotulo: "salvamentos",
+            titulo: "Organizando a cozinha pequena",
+            contexto: "Conteúdo de casa que virou referência e trouxe novos seguidores para a marca.",
+            link: "#", capa: "", alt: "Capa do vídeo de organização de cozinha", formato: "TikTok", cor: 2
+          }
+        ]
+      },
+
+      // EDITE AQUI: seus trabalhos por nicho.
+      // As categorias viram os botões de filtro. A "categoria" de cada trabalho precisa ser escrita igual à lista.
+      trabalhos: {
+        rotulo: "Trabalhos",
+        titulo: "Conteúdo para *cada* nicho",
+        textoTodos: "Todos",
+        categorias: ["Beleza", "Casa", "Comida", "Moda", "Fitness"],
+        itens: [
+          { categoria: "Beleza", titulo: "Sérum facial antes e depois", marca: "Bella Pele", formato: "Vídeo UGC", imagem: "", alt: "Julia aplicando sérum facial", cor: 1 },
+          { categoria: "Casa", titulo: "Manta que transforma a sala", marca: "Lar e Cor", formato: "Unboxing", imagem: "", alt: "Sala aconchegante com manta sobre o sofá", cor: 3 },
+          { categoria: "Comida", titulo: "Café da manhã em 5 minutos", marca: "Café Serrano", formato: "Reels", imagem: "", alt: "Mesa de café da manhã com xícara e pães", cor: 6 },
+          { categoria: "Moda", titulo: "Três looks com uma peça só", marca: "Ateliê Aurora", formato: "Fotos e vídeo", imagem: "", alt: "Julia mostrando um look em frente ao espelho", cor: 5 },
+          { categoria: "Fitness", titulo: "Treino rápido com elástico", marca: "Move Fit", formato: "Anúncio", imagem: "", alt: "Julia treinando com elástico de resistência", cor: 2 },
+          { categoria: "Beleza", titulo: "Maquiagem do dia a dia", marca: "Bella Pele", formato: "Tutorial", imagem: "", alt: "Produtos de maquiagem sobre a bancada", cor: 4 },
+          { categoria: "Casa", titulo: "Organização do quarto do bebê", marca: "Nuvem Baby", formato: "Vídeo UGC", imagem: "", alt: "Quarto de bebê organizado com cestos", cor: 7 },
+          { categoria: "Comida", titulo: "Receita prática de jantar", marca: "Sabor da Vila", formato: "Corte para anúncio", imagem: "", alt: "Prato de jantar servido na mesa", cor: 1 },
+          { categoria: "Moda", titulo: "Provador de bolsas", marca: "Casa Lume", formato: "Unboxing", imagem: "", alt: "Bolsas sobre a cama prontas para o provador", cor: 0 }
+        ]
+      },
+
+      // EDITE AQUI: seus serviços.
+      servicos: {
+        rotulo: "Como eu te ajudo",
+        titulo: "Serviços pensados para *vender*",
+        intro: "Do vídeo avulso ao pacote mensal, cada entrega é planejada para o objetivo da sua marca.",
+        itens: [
+          { titulo: "Vídeo UGC", descricao: "Vídeo vertical com roteiro, gravação e edição, feito para o seu perfil, site ou loja online.", ideal: "Ideal para gerar confiança no produto" },
+          { titulo: "Corte para anúncio", descricao: "Versões curtas com ganchos diferentes para você testar nos anúncios e descobrir qual vende mais.", ideal: "Ideal para campanhas pagas" },
+          { titulo: "Fotos de produto", descricao: "Fotos naturais, com o produto em uso e em ambientes reais, prontas para redes sociais e e-commerce.", ideal: "Ideal para vitrine e catálogo" },
+          { titulo: "Unboxing", descricao: "A primeira impressão real do seu produto, da embalagem ao uso, com aquela emoção que desperta desejo.", ideal: "Ideal para lançamentos" },
+          { titulo: "Publicação no perfil", descricao: "Além de criar, publico o conteúdo no meu perfil para levar a sua marca até o meu público.", ideal: "Ideal para alcance e prova social" },
+          { titulo: "Pacote mensal", descricao: "Uma quantidade fixa de vídeos por mês, com planejamento de pauta e prioridade na agenda.", ideal: "Ideal para marcas que querem constância" }
+        ]
+      },
+
+      // EDITE AQUI: números, resultados e depoimentos (tudo na mesma seção).
+      numeros: {
+        rotulo: "Números e depoimentos",
+        titulo: "Resultados que *falam* por mim",
+        intro: "Marcas me contratam pelo conteúdo e voltam pelos resultados.",
+        // Contadores animados. "valor" usa ponto para decimais (4.9), "casas" é a quantidade de casas decimais.
+        contadores: [
+          { valor: 4.9, casas: 1, prefixo: "", sufixo: "", rotulo: "nota média das marcas" },
+          { valor: 87, casas: 0, prefixo: "", sufixo: "%", rotulo: "das marcas me recontratam" },
+          { valor: 5, casas: 0, prefixo: "", sufixo: " dias", rotulo: "de prazo médio de entrega" },
+          { valor: 2.4, casas: 1, prefixo: "+", sufixo: "M", rotulo: "de alcance no maior vídeo" }
+        ],
+        resultadosTitulo: "Resultados de *campanha*",
+        resultados: [
+          { marca: "Bella Pele", metrica: "3,2x", rotulo: "retorno sobre o investimento", descricao: "Campanha de anúncios com cinco variações de vídeo UGC para o lançamento de um sérum." },
+          { marca: "Casa Lume", metrica: "-38%", rotulo: "no custo por compra", descricao: "Os vídeos UGC substituíram as peças de estúdio e baratearam cada venda." },
+          { marca: "Move Fit", metrica: "+1.200", rotulo: "vendas em 30 dias", descricao: "Série de vídeos de treino que levou o produto ao topo da loja online." }
+        ],
+        depoimentosTitulo: "O que as *marcas* dizem",
+        depoimentos: [
+          { texto: "A Julia entendeu a nossa marca de primeira. Os vídeos ficaram naturais, chegaram antes do prazo e viraram os anúncios com melhor resultado do trimestre.", nome: "Mariana Lopes", empresa: "Gerente de marketing, Bella Pele", cor: 0 },
+          { texto: "Profissional do começo ao fim. Roteiro bem pensado, comunicação rápida e um conteúdo que nosso público realmente assiste até o final.", nome: "Rafael Moura", empresa: "Fundador, Move Fit", cor: 4 },
+          { texto: "Já fechamos o terceiro pacote com ela. Cada vídeo traz um retorno que a gente consegue medir em vendas, e isso faz toda a diferença.", nome: "Camila Prado", empresa: "Coordenadora de conteúdo, Casa Lume", cor: 2 }
+        ]
+      },
+
+      // EDITE AQUI: a seção de contato.
+      contatoSecao: {
+        rotulo: "Bora criar juntos",
+        titulo: "Vamos fazer sua marca *vender* mais?",
+        texto: "Conte um pouco sobre o seu produto e o seu objetivo. Eu respondo em até um dia útil com uma proposta pensada para você.",
+        formTitulo: "Mande sua mensagem",
+        formTexto: "Preencha os campos e o seu aplicativo de e-mail abre com tudo pronto para enviar.",
+        botaoEnviar: "Enviar mensagem",
+        mensagemSucesso: "Prontinho! Abrimos o seu aplicativo de e-mail com a mensagem preenchida. É só clicar em enviar. Se nada abrir, escreva direto para "
+      },
+
+      // EDITE AQUI: o rodapé.
+      rodape: {
+        frase: "Conteúdo autêntico que gera resultado para marcas.",
+        voltarAoTopo: "Voltar ao topo"
+      }
+    };
+
+    /* =====================================================================
+       FIM DA ÁREA DE EDIÇÃO
+       Daqui para baixo é o funcionamento do site. Não precisa mexer.
+       ===================================================================== */
+
+    document.documentElement.classList.add("js");
+
+    // Ferramentas
+    const $ = (sel) => document.querySelector(sel);
+    const esc = (txt) => String(txt).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const enfase = (txt) => esc(txt).replace(/\*(.+?)\*/g, "<em>$1</em>");
+    const gradiente = (i) => GRADIENTES[(i || 0) % GRADIENTES.length];
+    const seta = '<span class="seta" aria-hidden="true">→</span>';
+
+    // Mostra a foto real, se houver, ou o bloco em gradiente.
+    function midia(m, decorativa) {
+      if (m.imagem) {
+        return `<img class="midia" src="${esc(m.imagem)}" alt="${decorativa ? "" : esc(m.alt)}" loading="lazy">`;
+      }
+      const acessivel = decorativa ? 'aria-hidden="true"' : `role="img" aria-label="${esc(m.alt)}"`;
+      return `<div class="midia" ${acessivel} style="background-image:${gradiente(m.cor)}"></div>`;
+    }
+
+    function partesDoNome(nome) {
+      const partes = nome.trim().split(" ");
+      const ultimo = partes.length > 1 ? partes.pop() : "";
+      return { inicio: partes.join(" "), fim: ultimo };
+    }
+
+    function cabecalho(id, rotulo, titulo, intro) {
+      return `
+        <p class="rotulo">${esc(rotulo)}</p>
+        <h2 class="titulo-secao" id="${id}">${enfase(titulo)}</h2>
+        ${intro ? `<p class="intro-secao">${esc(intro)}</p>` : ""}`;
+    }
+
+    const C = CONFIG;
+    const nome = partesDoNome(C.nome);
+    const linkWhats = `https://wa.me/${C.contato.whatsapp}?text=${encodeURIComponent(C.contato.mensagemWhatsApp)}`;
+    const linkEmail = `mailto:${C.contato.email}?subject=${encodeURIComponent(C.contato.assuntoEmail)}`;
+    const instagram = C.redes.find((r) => r.nome.toLowerCase() === "instagram") || C.redes[0];
+
+    // ===== Menu =====
+    $("#logo").innerHTML = `${esc(nome.inicio)}${nome.fim ? `&nbsp;<em>${esc(nome.fim)}</em>` : ""}<span class="ponto" aria-hidden="true">.</span>`;
+    $("#logo").setAttribute("aria-label", `${C.nome}, ir para o início`);
+    $("#menu").innerHTML = C.menu.map((item, i) => `
+      <li><a href="#${esc(item.alvo)}" ${i === C.menu.length - 1 ? 'class="menu-cta"' : ""}>${esc(item.texto)}</a></li>`).join("");
+
+    // ===== 1. Capa =====
+    $("#capa-conteudo").innerHTML = `
+      <div>
+        <p class="capa-selo revelar"><span class="pulso" aria-hidden="true"></span>${esc(C.capa.selo)}</p>
+        <h1 id="capa-titulo" class="revelar" style="--atraso:.08s">${esc(nome.inicio)} ${nome.fim ? `<em>${esc(nome.fim)}</em>` : ""}</h1>
+        <p class="capa-profissao revelar" style="--atraso:.14s">${esc(C.profissao)}</p>
+        <p class="capa-frase revelar" style="--atraso:.2s">${esc(C.capa.frase)}</p>
+        <div class="capa-botoes revelar" style="--atraso:.28s">
+          <a class="botao botao--principal" href="#contato">${esc(C.capa.botaoPrincipal)} ${seta}</a>
+          <a class="botao botao--contorno" href="#trabalhos">${esc(C.capa.botaoSecundario)}</a>
+        </div>
+        <dl class="capa-numeros revelar" style="--atraso:.36s">
+          ${C.capa.numeros.map((n) => `<div><dt>${esc(n.rotulo)}</dt><dd>${esc(n.valor)}</dd></div>`).join("")}
+        </dl>
+      </div>
+      <div class="capa-foto revelar" style="--atraso:.2s">
+        ${midia(C.capa.foto)}
+        <div class="capa-cartao" aria-hidden="true">
+          <span class="play-mini"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fffcf8"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+          <span><strong>${esc(C.capa.cartaoNumero)}</strong><small>${esc(C.capa.cartaoTexto)}</small></span>
+        </div>
+      </div>`;
+
+    // Faixa de marcas: a lista aparece duas vezes para o movimento ser contínuo (a cópia fica escondida do leitor de tela).
+    const listaMarcas = C.marcas.map((m) => `<li>${esc(m)}</li>`).join("");
+    $("#marcas").innerHTML = `
+      <h2 class="sr-only">Marcas com quem já trabalhei</h2>
+      <div class="marcas-trilho">
+        <ul>${listaMarcas}</ul>
+        <ul aria-hidden="true">${listaMarcas}</ul>
+      </div>`;
+
+    // ===== 2. Sobre =====
+    $("#sobre-conteudo").innerHTML = `
+      <div class="sobre-foto revelar">
+        ${midia(C.sobre.foto)}
+        <span class="legenda-foto" aria-hidden="true">${esc(C.sobre.legendaFoto)}</span>
+      </div>
+      <div class="sobre-texto">
+        <div class="revelar">${cabecalho("sobre-titulo", C.sobre.rotulo, C.sobre.titulo)}</div>
+        <div class="paragrafos revelar" style="--atraso:.1s">${C.sobre.paragrafos.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+        <div class="entregas revelar" style="--atraso:.2s">
+          <h3>${enfase(C.sobre.entregasTitulo)}</h3>
+          <ul>${C.sobre.entregas.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
+        </div>
+      </div>`;
+
+    // ===== 3. Destaques =====
+    $("#destaques-conteudo").innerHTML = `
+      <div class="cabeca-secao revelar">${cabecalho("destaques-titulo", C.destaques.rotulo, C.destaques.titulo, C.destaques.intro)}</div>
+      <div class="destaques-grade">
+        ${C.destaques.itens.map((d, i) => {
+          const externo = d.link && d.link !== "#";
+          return `
+          <a class="destaque revelar" style="--atraso:${i * 0.12}s" href="${esc(d.link || "#")}"
+             ${externo ? 'target="_blank" rel="noopener"' : ""}
+             aria-label="Assistir: ${esc(d.titulo)}. ${esc(d.numero)} ${esc(d.rotulo)}.${externo ? " Abre em nova aba." : ""}">
+            <div class="destaque-capa">
+              ${midia({ imagem: d.capa, alt: d.alt, cor: d.cor }, true)}
+              <span class="destaque-tag">${esc(d.formato)}</span>
+              <span class="play" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+            </div>
+            <div class="destaque-info">
+              <p class="destaque-numero">${esc(d.numero)}</p>
+              <p class="destaque-rotulo">${esc(d.rotulo)}</p>
+              <h3>${esc(d.titulo)}</h3>
+              <p class="destaque-contexto">${esc(d.contexto)}</p>
+            </div>
+          </a>`;
+        }).join("")}
+      </div>`;
+
+    // ===== 4. Trabalhos =====
+    const T = C.trabalhos;
+    $("#trabalhos-conteudo").innerHTML = `
+      <div class="cabeca-secao cabeca-secao--linha">
+        <div class="revelar">${cabecalho("trabalhos-titulo", T.rotulo, T.titulo)}</div>
+        <div class="filtros revelar" role="group" aria-label="Filtrar trabalhos por nicho">
+          ${[T.textoTodos, ...T.categorias].map((cat, i) => `
+            <button type="button" class="filtro" data-filtro="${i === 0 ? "*" : esc(cat)}" aria-pressed="${i === 0}">${esc(cat)}</button>`).join("")}
+        </div>
+      </div>
+      <p class="sr-only" id="trabalhos-aviso" aria-live="polite"></p>
+      <ul class="trabalhos-grade" style="list-style:none;margin:0;padding:0">
+        ${T.itens.map((t, i) => `
+          <li class="trabalho revelar" style="--atraso:${(i % 3) * 0.1}s" data-categoria="${esc(t.categoria)}">
+            <div class="trabalho-figura">
+              ${midia(t)}
+              <span class="trabalho-formato">${esc(t.formato)}</span>
+            </div>
+            <div class="trabalho-info">
+              <p class="trabalho-categoria">${esc(t.categoria)}</p>
+              <h3>${esc(t.titulo)}</h3>
+              <p class="trabalho-marca">${esc(t.marca)}</p>
+            </div>
+          </li>`).join("")}
+      </ul>`;
+
+    document.querySelectorAll(".filtro").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        const filtro = botao.dataset.filtro;
+        document.querySelectorAll(".filtro").forEach((b) => b.setAttribute("aria-pressed", String(b === botao)));
+        let total = 0;
+        document.querySelectorAll(".trabalho").forEach((item) => {
+          const mostrar = filtro === "*" || item.dataset.categoria === filtro;
+          item.hidden = !mostrar;
+          item.classList.remove("surgindo");
+          if (mostrar) {
+            total++;
+            item.classList.add("visivel");
+            void item.offsetWidth; // reinicia a animação
+            item.classList.add("surgindo");
+          }
+        });
+        $("#trabalhos-aviso").textContent = `${total} ${total === 1 ? "trabalho exibido" : "trabalhos exibidos"}.`;
+      });
+    });
+
+    // ===== 5. Serviços =====
+    const S = C.servicos;
+    $("#servicos-conteudo").innerHTML = `
+      <div class="cabeca-secao revelar">${cabecalho("servicos-titulo", S.rotulo, S.titulo, S.intro)}</div>
+      <ul class="servicos-grade" style="list-style:none;margin:0;padding:0">
+        ${S.itens.map((s, i) => `
+          <li class="servico revelar" style="--atraso:${(i % 3) * 0.1}s">
+            <span class="servico-numero" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+            <h3>${esc(s.titulo)}</h3>
+            <p>${esc(s.descricao)}</p>
+            <p class="servico-ideal"><span>${esc(s.ideal)}</span></p>
+          </li>`).join("")}
+      </ul>`;
+
+    // ===== 6. Números e depoimentos =====
+    const N = C.numeros;
+    const formatar = (valor, casas) => valor.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
+    $("#numeros-conteudo").innerHTML = `
+      <div class="cabeca-secao revelar">${cabecalho("numeros-titulo", N.rotulo, N.titulo, N.intro)}</div>
+      <div class="contadores revelar">
+        ${N.contadores.map((c) => `
+          <div class="contador">
+            <p class="contador-numero">
+              <span aria-hidden="true" class="contar" data-valor="${c.valor}" data-casas="${c.casas || 0}" data-prefixo="${esc(c.prefixo || "")}" data-sufixo="${esc(c.sufixo || "")}">${esc(c.prefixo || "")}${formatar(0, c.casas || 0)}${esc(c.sufixo || "")}</span>
+              <span class="sr-only">${esc(c.prefixo || "")}${formatar(c.valor, c.casas || 0)}${esc(c.sufixo || "")}</span>
+            </p>
+            <p class="contador-rotulo">${esc(c.rotulo)}</p>
+          </div>`).join("")}
+      </div>
+
+      <h3 class="subtitulo-bloco revelar">${enfase(N.resultadosTitulo)}</h3>
+      <ul class="resultados-grade" style="list-style:none;margin:0;padding:0">
+        ${N.resultados.map((r, i) => `
+          <li class="resultado revelar" style="--atraso:${i * 0.1}s">
+            <p class="resultado-marca">${esc(r.marca)}</p>
+            <p class="resultado-metrica">${esc(r.metrica)}</p>
+            <p class="resultado-rotulo">${esc(r.rotulo)}</p>
+            <p>${esc(r.descricao)}</p>
+          </li>`).join("")}
+      </ul>
+
+      <h3 class="subtitulo-bloco revelar">${enfase(N.depoimentosTitulo)}</h3>
+      <div class="depoimentos-grade">
+        ${N.depoimentos.map((d, i) => `
+          <figure class="depoimento revelar" style="--atraso:${i * 0.1}s">
+            <p class="estrelas" aria-label="Avaliação 5 de 5">★★★★★</p>
+            <blockquote><p>${esc(d.texto)}</p></blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true" style="background-image:${gradiente(d.cor)}">${esc(d.nome.charAt(0))}</span>
+              <span><strong>${esc(d.nome)}</strong><span class="empresa">${esc(d.empresa)}</span></span>
+            </figcaption>
+          </figure>`).join("")}
+      </div>`;
+
+    // ===== 7. Contato =====
+    const K = C.contatoSecao;
+    $("#contato-conteudo").innerHTML = `
+      <div>
+        <div class="revelar">${cabecalho("contato-titulo", K.rotulo, K.titulo, K.texto)}</div>
+        <ul class="contato-diretos revelar" style="--atraso:.1s">
+          <li><a href="${linkWhats}" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp ${esc(C.contato.whatsappExibicao)} (abre em nova aba)">
+            <span><span class="canal">WhatsApp</span><span class="valor">${esc(C.contato.whatsappExibicao)}</span></span>
+            <span class="seta" aria-hidden="true">↗</span></a></li>
+          <li><a href="${linkEmail}" aria-label="Enviar e-mail para ${esc(C.contato.email)}">
+            <span><span class="canal">E-mail</span><span class="valor">${esc(C.contato.email)}</span></span>
+            <span class="seta" aria-hidden="true">↗</span></a></li>
+          <li><a href="${esc(instagram.link)}" target="_blank" rel="noopener" aria-label="Ver ${esc(instagram.nome)} ${esc(instagram.usuario)} (abre em nova aba)">
+            <span><span class="canal">${esc(instagram.nome)}</span><span class="valor">${esc(instagram.usuario)}</span></span>
+            <span class="seta" aria-hidden="true">↗</span></a></li>
+        </ul>
+      </div>
+      <form class="formulario revelar" style="--atraso:.15s" id="formulario" novalidate>
+        <h3>${enfase(K.formTitulo)}</h3>
+        <p>${esc(K.formTexto)}</p>
+        <div class="campo">
+          <label for="f-nome">Seu nome</label>
+          <input id="f-nome" name="nome" type="text" autocomplete="name" required aria-describedby="erro-nome">
+          <p class="erro-campo" id="erro-nome" aria-live="polite"></p>
+        </div>
+        <div class="campo">
+          <label for="f-email">Seu e-mail</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="erro-email">
+          <p class="erro-campo" id="erro-email" aria-live="polite"></p>
+        </div>
+        <div class="campo">
+          <label for="f-mensagem">Mensagem</label>
+          <textarea id="f-mensagem" name="mensagem" required aria-describedby="erro-mensagem" placeholder="Conte sobre a sua marca, o produto e o que você precisa."></textarea>
+          <p class="erro-campo" id="erro-mensagem" aria-live="polite"></p>
+        </div>
+        <button class="botao botao--principal" type="submit">${esc(K.botaoEnviar)} ${seta}</button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>`;
+
+    $("#formulario").addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      const campos = {
+        nome: { el: $("#f-nome"), erro: "Escreva o seu nome." },
+        email: { el: $("#f-email"), erro: "Escreva um e-mail válido." },
+        mensagem: { el: $("#f-mensagem"), erro: "Escreva uma mensagem." }
+      };
+      let primeiroErro = null;
+      Object.entries(campos).forEach(([chave, campo]) => {
+        const valido = campo.el.value.trim() !== "" && campo.el.checkValidity();
+        campo.el.setAttribute("aria-invalid", String(!valido));
+        $(`#erro-${chave}`).textContent = valido ? "" : campo.erro;
+        if (!valido && !primeiroErro) primeiroErro = campo.el;
+      });
+      if (primeiroErro) { primeiroErro.focus(); return; }
+
+      const corpo = `Olá, Julia!\n\n${campos.mensagem.el.value.trim()}\n\nNome: ${campos.nome.el.value.trim()}\nE-mail: ${campos.email.el.value.trim()}`;
+      window.location.href = `mailto:${C.contato.email}?subject=${encodeURIComponent(C.contato.assuntoEmail)}&body=${encodeURIComponent(corpo)}`;
+      $("#form-status").textContent = `${K.mensagemSucesso}${C.contato.email}.`;
+      evento.target.reset();
+    });
+
+    // ===== 8. Rodapé =====
+    $("#rodape-conteudo").innerHTML = `
+      <div class="rodape-topo">
+        <div>
+          <p class="rodape-nome">${esc(nome.inicio)} ${nome.fim ? `<em>${esc(nome.fim)}</em>` : ""}</p>
+          <p class="rodape-frase">${esc(C.rodape.frase)}</p>
+        </div>
+        <ul class="redes" aria-label="Redes sociais e contato">
+          ${C.redes.map((r) => `<li><a href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.nome)} <span aria-hidden="true">↗</span><span class="sr-only">(abre em nova aba)</span></a></li>`).join("")}
+          <li><a href="${linkWhats}" target="_blank" rel="noopener">WhatsApp <span aria-hidden="true">↗</span><span class="sr-only">(abre em nova aba)</span></a></li>
+          <li><a href="${linkEmail}">E-mail <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </div>
+      <div class="rodape-base">
+        <p>© ${new Date().getFullYear()} ${esc(C.nome)}. Todos os direitos reservados.</p>
+        <a href="#inicio">${esc(C.rodape.voltarAoTopo)} ↑</a>
+      </div>`;
+
+    // ===== Comportamentos =====
+
+    // Menu sanduíche
+    const botaoMenu = $("#menu-botao");
+    const menu = $("#menu");
+    const topo = $("#topo");
+    function alternarMenu(abrir) {
+      botaoMenu.setAttribute("aria-expanded", String(abrir));
+      botaoMenu.querySelector(".sr-only").textContent = abrir ? "Fechar menu" : "Abrir menu";
+      menu.classList.toggle("aberto", abrir);
+      topo.classList.toggle("menu-aberto", abrir);
+    }
+    botaoMenu.addEventListener("click", () => alternarMenu(botaoMenu.getAttribute("aria-expanded") !== "true"));
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) alternarMenu(false); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.classList.contains("aberto")) { alternarMenu(false); botaoMenu.focus(); }
+    });
+    window.matchMedia("(min-width: 900px)").addEventListener("change", (e) => { if (e.matches) alternarMenu(false); });
+
+    // Fundo do menu ao rolar
+    const marcarRolagem = () => topo.classList.toggle("rolado", window.scrollY > 12);
+    window.addEventListener("scroll", marcarRolagem, { passive: true });
+    marcarRolagem();
+
+    // Destaca no menu a seção que está na tela
+    const linksMenu = [...menu.querySelectorAll("a")];
+    const observarSecoes = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        linksMenu.forEach((l) => {
+          if (l.getAttribute("href") === `#${entrada.target.id}`) l.setAttribute("aria-current", "true");
+          else l.removeAttribute("aria-current");
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    document.querySelectorAll("main section[id]").forEach((s) => observarSecoes.observe(s));
+
+    // Contadores animados
+    const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function contar(el) {
+      const alvo = parseFloat(el.dataset.valor);
+      const casas = parseInt(el.dataset.casas, 10);
+      const { prefixo, sufixo } = el.dataset;
+      const escrever = (v) => { el.textContent = `${prefixo}${formatar(v, casas)}${sufixo}`; };
+      if (semMovimento) { escrever(alvo); return; }
+      const duracao = 1800;
+      const inicio = performance.now();
+      function passo(agora) {
+        const t = Math.min((agora - inicio) / duracao, 1);
+        const suave = 1 - Math.pow(1 - t, 3);
+        escrever(alvo * suave);
+        if (t < 1) requestAnimationFrame(passo);
+        else escrever(alvo);
+      }
+      requestAnimationFrame(passo);
+    }
+
+    // Animação de entrada ao rolar (fade com uma subidinha)
+    if ("IntersectionObserver" in window) {
+      const observarEntrada = new IntersectionObserver((entradas, obs) => {
+        entradas.forEach((entrada) => {
+          if (!entrada.isIntersecting) return;
+          entrada.target.classList.add("visivel");
+          entrada.target.querySelectorAll(".contar").forEach(contar);
+          obs.unobserve(entrada.target);
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+      document.querySelectorAll(".revelar").forEach((el) => observarEntrada.observe(el));
+    } else {
+      document.querySelectorAll(".revelar").forEach((el) => el.classList.add("visivel"));
+      document.querySelectorAll(".contar").forEach(contar);
+    }
+  </script>
+</body>
+</html>

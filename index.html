@@ -230,7 +230,7 @@
       display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: clamp(24px, 4vw, 52px);
       margin: 48px 0 0; padding-top: 28px; border-top: 1px solid var(--linha);
     }
-    .capa-numeros div { display: flex; flex-direction: column-reverse; }
+    .capa-numeros div { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
     .capa-numeros dt { font-size: 0.85rem; color: var(--tinta-suave); margin-top: 4px; }
     .capa-numeros dd { margin: 0; font-family: var(--serif); font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem); line-height: 1; color: var(--marrom); }
 
@@ -240,6 +240,11 @@
       content: ""; position: absolute; width: 58%; aspect-ratio: 1; border-radius: 50%;
       border: 1.5px solid var(--laranja); top: -6%; right: -8%; z-index: -1; opacity: .6;
     }
+    .capa-foto.capa-foto--video { max-width: 390px; width: 100%; justify-self: center; }
+    .capa-foto--video .midia { aspect-ratio: 9 / 16; }
+    .capa-video { display: block; position: relative; border-radius: var(--raio); outline-offset: 6px; }
+    .capa-video:hover .play, .capa-video:focus-visible .play { background: var(--marrom); transform: translate(-50%, -50%) scale(1.08); }
+    .capa-video:hover .play svg, .capa-video:focus-visible .play svg { fill: var(--branco); }
     .capa-cartao {
       position: absolute; left: clamp(-36px, -3vw, -12px); bottom: 9%;
       background: var(--branco); border-radius: var(--raio-sm); padding: 14px 18px; box-shadow: var(--sombra-forte);
@@ -656,11 +661,14 @@
           { valor: "60+", rotulo: "marcas atendidas" },
           { valor: "12M", rotulo: "views somadas" }
         ],
-        // Foto da capa (veja acima como trocar o gradiente por uma foto real).
+        // Vídeo em destaque na capa: cole aqui o link do YouTube. A capa do vídeo aparece no lugar da foto.
+        // Se deixar vazio (""), aparece a foto abaixo.
+        videoDestaque: "https://youtube.com/shorts/TZJI1O8mX-0",
+        // Foto da capa, usada só quando não há vídeo em destaque (veja acima como trocar o gradiente por uma foto real).
         foto: { imagem: "", alt: "Julia Neves sorrindo e segurando um produto em frente à câmera", cor: 0 },
-        // Cartãozinho que fica por cima da foto.
-        cartaoNumero: "+2,2M views",
-        cartaoTexto: "no vídeo mais visto do ano"
+        // Cartãozinho que fica por cima do vídeo ou da foto.
+        cartaoNumero: "+2,2M visualizações",
+        cartaoTexto: "1 ano de parceria com o Sam's Club"
       },
 
       // EDITE AQUI: nichos em que você já trabalhou (faixa que desliza na capa).
@@ -703,7 +711,7 @@
           {
             numero: "+2,2M", rotulo: "de visualizações",
             titulo: "1 ano de parceria com o Sam's Club",
-            contexto: "Um ano criando conteúdo para o Sam's Club, com o vídeo que mais alcançou pessoas.",
+            contexto: "Completamos 1 ano de parceria com o Sam's Club, e este vídeo passou de 2,2 milhões de visualizações.",
             youtube: "https://youtube.com/shorts/TZJI1O8mX-0",
             link: "", capa: "", alt: "Vídeo de 1 ano de parceria com o Sam's Club", formato: "Parceria", cor: 0
           },
@@ -819,9 +827,10 @@
     const seta = '<span class="seta" aria-hidden="true">→</span>';
 
     // Mostra a foto real, se houver, ou o bloco em gradiente.
-    function midia(m, decorativa) {
+    function midia(m, decorativa, carregarJa) {
       if (m.imagem) {
-        return `<img class="midia" src="${esc(m.imagem)}" alt="${decorativa ? "" : esc(m.alt)}" loading="lazy">`;
+        const reserva = m.imagem.includes("i.ytimg.com") ? reservaCapa : "";
+        return `<img class="midia" src="${esc(m.imagem)}" alt="${decorativa ? "" : esc(m.alt)}" ${carregarJa ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" ${reserva}>`;
       }
       const acessivel = decorativa ? 'aria-hidden="true"' : `role="img" aria-label="${esc(m.alt)}"`;
       return `<div class="midia" ${acessivel} style="background-image:${gradiente(m.cor)}"></div>`;
@@ -832,7 +841,9 @@
       const achado = String(link || "").match(/(?:shorts\/|youtu\.be\/|[?&]v=|embed\/)([\w-]{11})/);
       return achado ? achado[1] : "";
     }
-    const capaYoutube = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    // Capa vertical em alta resolução (1080x1920). Se não existir, a foto troca sozinha pela capa padrão.
+    const capaYoutube = (id) => `https://i.ytimg.com/vi/${id}/oar2.jpg`;
+    const reservaCapa = `onerror="this.onerror=null;this.src=this.src.replace('oar2.jpg','hqdefault.jpg')"`;
     const linkYoutube = (id) => `https://www.youtube.com/shorts/${id}`;
     const iconePlay = '<span class="play" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>';
 
@@ -862,6 +873,7 @@
       <li><a href="#${esc(item.alvo)}" ${i === C.menu.length - 1 ? 'class="menu-cta"' : ""}>${esc(item.texto)}</a></li>`).join("");
 
     // ===== 1. Capa =====
+    const videoCapa = idYoutube(C.capa.videoDestaque);
     $("#capa-conteudo").innerHTML = `
       <div>
         <p class="capa-selo revelar"><span class="pulso" aria-hidden="true"></span>${esc(C.capa.selo)}</p>
@@ -876,8 +888,13 @@
           ${C.capa.numeros.map((n) => `<div><dt>${esc(n.rotulo)}</dt><dd>${esc(n.valor)}</dd></div>`).join("")}
         </dl>
       </div>
-      <div class="capa-foto revelar" style="--atraso:.2s">
-        ${midia(C.capa.foto)}
+      <div class="capa-foto${videoCapa ? " capa-foto--video" : ""} revelar" style="--atraso:.2s">
+        ${videoCapa
+          ? `<a class="capa-video" href="${linkYoutube(videoCapa)}" data-video="${videoCapa}" data-titulo="${esc(C.capa.cartaoTexto)}"
+               aria-label="Assistir: ${esc(C.capa.cartaoTexto)}, ${esc(C.capa.cartaoNumero)}">
+               ${midia({ imagem: capaYoutube(videoCapa) }, true, true)}${iconePlay}
+             </a>`
+          : midia(C.capa.foto)}
         <div class="capa-cartao" aria-hidden="true">
           <span class="play-mini"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fffcf8"><path d="M7 4.5v15l13-7.5z"/></svg></span>
           <span><strong>${esc(C.capa.cartaoNumero)}</strong><small>${esc(C.capa.cartaoTexto)}</small></span>

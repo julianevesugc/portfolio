@@ -249,7 +249,10 @@
       position: absolute; left: clamp(-36px, -3vw, -12px); bottom: 9%;
       background: var(--branco); border-radius: var(--raio-sm); padding: 14px 18px; box-shadow: var(--sombra-forte);
       display: flex; align-items: center; gap: 12px; max-width: 250px;
+      text-decoration: none; color: var(--tinta); transition: transform .3s ease;
     }
+    .capa-cartao:hover { transform: translateY(-3px); }
+    img.midia { object-position: center 20%; }
     .capa-cartao .play-mini {
       flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--marrom); display: grid; place-items: center;
     }
@@ -295,7 +298,15 @@
        3. DESTAQUES
        ========================================================= */
     .destaques { background: var(--branco); }
-    .destaques-grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 40px); }
+    .destaque-grade { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(40px, 7vw, 110px); align-items: center; }
+    .destaque-video { width: 100%; max-width: 380px; justify-self: center; order: -1; }
+    .destaque-numeros { display: flex; flex-wrap: wrap; gap: 20px clamp(28px, 4vw, 56px); margin: 36px 0 0; padding: 28px 0; border-block: 1px solid var(--linha); }
+    .destaque-numeros div { display: flex; flex-direction: column-reverse; }
+    .destaque-numeros dd { margin: 0; font-family: var(--serif); font-size: clamp(2.6rem, 2rem + 2.4vw, 3.8rem); line-height: 1; color: var(--marrom); letter-spacing: -0.03em; }
+    .destaque-numeros dt { margin-top: 8px; font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--laranja-texto); max-width: 22ch; }
+    .destaque-paragrafos { margin-top: 28px; color: var(--tinta-suave); max-width: 54ch; }
+    .destaque-paragrafos p + p { margin-top: 16px; }
+    .destaque-paragrafos p:first-child { font-family: var(--serif); font-size: clamp(1.2rem, 1.05rem + .5vw, 1.45rem); line-height: 1.45; color: var(--tinta); }
     .destaque {
       display: block; text-decoration: none; border-radius: var(--raio); outline-offset: 6px;
     }
@@ -502,7 +513,8 @@
       .contador:nth-child(n + 3) { border-top: 1px solid var(--linha); }
     }
     @media (max-width: 759px) {
-      .destaques-grade { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; gap: 56px; }
+      .destaque-grade { grid-template-columns: 1fr; gap: 48px; }
+      .destaque-video { order: 0; }
       .entregas ul { grid-template-columns: 1fr; }
     }
     @media (max-width: 520px) {
@@ -554,7 +566,7 @@
 
     <!-- 3. CONTEÚDOS DE DESTAQUE -->
     <section class="secao destaques" id="destaques" aria-labelledby="destaques-titulo">
-      <div class="container" id="destaques-conteudo"></div>
+      <div class="container destaque-grade" id="destaques-conteudo"></div>
     </section>
 
     <!-- 4. TRABALHOS POR NICHO -->
@@ -642,7 +654,7 @@
       // EDITE AQUI: os links do menu do topo (o "alvo" é o id da seção, não mude).
       menu: [
         { texto: "Sobre", alvo: "sobre" },
-        { texto: "Destaques", alvo: "destaques" },
+        { texto: "Destaque", alvo: "destaques" },
         { texto: "Trabalhos", alvo: "trabalhos" },
         { texto: "Serviços", alvo: "servicos" },
         { texto: "Números", alvo: "numeros" },
@@ -663,10 +675,10 @@
         ],
         // Vídeo em destaque na capa: cole aqui o link do YouTube. A capa do vídeo aparece no lugar da foto.
         // Se deixar vazio (""), aparece a foto abaixo.
-        videoDestaque: "https://youtube.com/shorts/TZJI1O8mX-0",
-        // Foto da capa, usada só quando não há vídeo em destaque (veja acima como trocar o gradiente por uma foto real).
-        foto: { imagem: "", alt: "Julia Neves sorrindo e segurando um produto em frente à câmera", cor: 0 },
-        // Cartãozinho que fica por cima do vídeo ou da foto.
+        videoDestaque: "",
+        // Foto da capa, usada quando não há vídeo em destaque. A foto fica na mesma pasta deste arquivo.
+        foto: { imagem: "julia-capa.jpg", alt: "Julia Neves sorrindo, com roupa rosa, sentada em um estúdio de fundo claro", cor: 0 },
+        // Cartãozinho que fica por cima do vídeo ou da foto (ao clicar, leva para o conteúdo destaque).
         cartaoNumero: "+2,2M visualizações",
         cartaoTexto: "1 ano de parceria com o Sam's Club"
       },
@@ -693,43 +705,30 @@
           "Arquivos brutos para sua equipe",
           "Até duas rodadas de ajustes"
         ],
-        foto: { imagem: "", alt: "Julia Neves gravando um vídeo com o celular em um tripé, em casa", cor: 3 },
-        legendaFoto: "Bastidores de gravação"
+        foto: { imagem: "julia-sobre.jpg", alt: "Julia Neves sorrindo e olhando para o lado, com roupa rosa e acessórios dourados", cor: 3 },
+        // Etiqueta pequena por cima da foto. Deixe "" para não mostrar.
+        legendaFoto: ""
       },
 
-      // EDITE AQUI: seus três melhores conteúdos.
-      // "youtube" é onde entra o link do vídeo no YouTube (pode ser não listado). A capa vem do próprio YouTube
-      // e o vídeo abre dentro do site.
-      // Para usar outro tipo de link (Instagram, TikTok, Google Drive), deixe "youtube" vazio e coloque o endereço em "link".
+      // EDITE AQUI: o conteúdo destaque (seção que vem logo depois do Sobre mim).
+      // "youtube" é o link do vídeo no YouTube (pode ser não listado). A capa vem do próprio YouTube e o vídeo abre dentro do site.
       // "capa" é onde entra uma imagem de capa vertical 9:16 sua (exemplo: "capa-sams.jpg"), se quiser trocar a do YouTube.
-      // "numero" pode ficar vazio ("") se você ainda não tiver o resultado daquele vídeo.
-      destaques: {
-        rotulo: "Conteúdos de destaque",
-        titulo: "Os vídeos que *mais* deram resultado",
-        intro: "Três conteúdos que mostram o que eu faço melhor: prender a atenção, gerar desejo e levar a pessoa até a compra.",
-        itens: [
-          {
-            numero: "+2,2M", rotulo: "de visualizações",
-            titulo: "1 ano de parceria com o Sam's Club",
-            contexto: "Completamos 1 ano de parceria com o Sam's Club, e este vídeo passou de 2,2 milhões de visualizações.",
-            youtube: "https://youtube.com/shorts/TZJI1O8mX-0",
-            link: "", capa: "", alt: "Vídeo de 1 ano de parceria com o Sam's Club", formato: "Parceria", cor: 0
-          },
-          {
-            numero: "", rotulo: "Marketplace",
-            titulo: "Demonstrativo Mercado Livre",
-            contexto: "Produto apresentado em uso real, do jeito que faz a pessoa querer comprar.",
-            youtube: "https://youtube.com/shorts/DOgFg05Uiqc",
-            link: "", capa: "", alt: "Vídeo demonstrativo para o Mercado Livre", formato: "UGC", cor: 4
-          },
-          {
-            numero: "", rotulo: "Gastronomia",
-            titulo: "Experiência no restaurante",
-            contexto: "O lugar, os pratos e o clima mostrados de um jeito que dá vontade de reservar uma mesa.",
-            youtube: "https://youtube.com/shorts/vMQv1EDwixg",
-            link: "", capa: "", alt: "Vídeo demonstrativo de restaurante", formato: "Experiência", cor: 2
-          }
-        ]
+      destaque: {
+        rotulo: "Conteúdo destaque",
+        titulo: "1 ano de parceria com o *Sam's Club*",
+        youtube: "https://youtube.com/shorts/TZJI1O8mX-0",
+        capa: "",
+        formato: "Parceria",
+        numeros: [
+          { valor: "1 ano", rotulo: "de parceria com o Sam's Club" },
+          { valor: "+2,2M", rotulo: "de visualizações neste vídeo" }
+        ],
+        paragrafos: [
+          "Há um ano eu crio conteúdo para o Sam's Club. Mostro produtos, novidades e promoções do jeito que o cliente gosta de ver: dentro da loja, na prática, com informação clara e a linguagem de quem usa de verdade.",
+          "Este vídeo é um dos frutos dessa parceria. Ele passou de 2,2 milhões de visualizações e mostra o que acontece quando uma marca confia em conteúdo real, feito com estratégia."
+        ],
+        botaoPrincipal: "Assistir ao vídeo",
+        botaoSecundario: "Ver mais trabalhos"
       },
 
       // EDITE AQUI: seus trabalhos por nicho.
@@ -894,11 +893,11 @@
                aria-label="Assistir: ${esc(C.capa.cartaoTexto)}, ${esc(C.capa.cartaoNumero)}">
                ${midia({ imagem: capaYoutube(videoCapa) }, true, true)}${iconePlay}
              </a>`
-          : midia(C.capa.foto)}
-        <div class="capa-cartao" aria-hidden="true">
-          <span class="play-mini"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fffcf8"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+          : midia(C.capa.foto, false, true)}
+        <a class="capa-cartao" href="#destaques">
+          <span class="play-mini" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fffcf8"><path d="M7 4.5v15l13-7.5z"/></svg></span>
           <span><strong>${esc(C.capa.cartaoNumero)}</strong><small>${esc(C.capa.cartaoTexto)}</small></span>
-        </div>
+        </a>
       </div>`;
 
     // Faixa de marcas: a lista aparece duas vezes para o movimento ser contínuo (a cópia fica escondida do leitor de tela).
@@ -914,7 +913,7 @@
     $("#sobre-conteudo").innerHTML = `
       <div class="sobre-foto revelar">
         ${midia(C.sobre.foto)}
-        <span class="legenda-foto" aria-hidden="true">${esc(C.sobre.legendaFoto)}</span>
+        ${C.sobre.legendaFoto ? `<span class="legenda-foto" aria-hidden="true">${esc(C.sobre.legendaFoto)}</span>` : ""}
       </div>
       <div class="sobre-texto">
         <div class="revelar">${cabecalho("sobre-titulo", C.sobre.rotulo, C.sobre.titulo)}</div>
@@ -925,34 +924,32 @@
         </div>
       </div>`;
 
-    // ===== 3. Destaques =====
+    // ===== 3. Conteúdo destaque =====
+    const D = C.destaque;
+    const videoDestaque = idYoutube(D.youtube);
+    const tituloSimples = D.titulo.replace(/\*/g, "");
+    const atributosVideo = videoDestaque
+      ? `href="${linkYoutube(videoDestaque)}" data-video="${videoDestaque}" data-titulo="${esc(tituloSimples)}"`
+      : 'href="#"';
     $("#destaques-conteudo").innerHTML = `
-      <div class="cabeca-secao revelar">${cabecalho("destaques-titulo", C.destaques.rotulo, C.destaques.titulo, C.destaques.intro)}</div>
-      <div class="destaques-grade">
-        ${C.destaques.itens.map((d, i) => {
-          const video = idYoutube(d.youtube);
-          const endereco = video ? linkYoutube(video) : (d.link || "#");
-          const externo = !video && endereco !== "#";
-          const resumo = [d.numero, d.rotulo].filter(Boolean).join(" ");
-          return `
-          <a class="destaque revelar" style="--atraso:${i * 0.12}s" href="${esc(endereco)}"
-             ${video ? `data-video="${video}" data-titulo="${esc(d.titulo)}"` : ""}
-             ${externo ? 'target="_blank" rel="noopener"' : ""}
-             aria-label="Assistir: ${esc(d.titulo)}. ${esc(resumo)}.${externo ? " Abre em nova aba." : ""}">
-            <div class="destaque-capa">
-              ${midia({ imagem: d.capa || (video ? capaYoutube(video) : ""), alt: d.alt, cor: d.cor }, true)}
-              <span class="destaque-tag">${esc(d.formato)}</span>
-              ${iconePlay}
-            </div>
-            <div class="destaque-info">
-              ${d.numero ? `<p class="destaque-numero">${esc(d.numero)}</p>` : ""}
-              <p class="destaque-rotulo">${esc(d.rotulo)}</p>
-              <h3>${esc(d.titulo)}</h3>
-              <p class="destaque-contexto">${esc(d.contexto)}</p>
-            </div>
-          </a>`;
-        }).join("")}
-      </div>`;
+      <div class="destaque-texto">
+        <div class="revelar">${cabecalho("destaques-titulo", D.rotulo, D.titulo)}</div>
+        <dl class="destaque-numeros revelar" style="--atraso:.1s">
+          ${D.numeros.map((n) => `<div><dt>${esc(n.rotulo)}</dt><dd>${esc(n.valor)}</dd></div>`).join("")}
+        </dl>
+        <div class="destaque-paragrafos revelar" style="--atraso:.16s">${D.paragrafos.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+        <div class="capa-botoes revelar" style="--atraso:.22s">
+          <a class="botao botao--principal" ${atributosVideo}>${esc(D.botaoPrincipal)} ${seta}</a>
+          <a class="botao botao--contorno" href="#trabalhos">${esc(D.botaoSecundario)}</a>
+        </div>
+      </div>
+      <a class="destaque destaque-video revelar" style="--atraso:.12s" ${atributosVideo} aria-label="Assistir: ${esc(tituloSimples)}">
+        <div class="destaque-capa">
+          ${midia({ imagem: D.capa || (videoDestaque ? capaYoutube(videoDestaque) : ""), cor: 0 }, true)}
+          <span class="destaque-tag">${esc(D.formato)}</span>
+          ${iconePlay}
+        </div>
+      </a>`;
 
     // ===== 4. Trabalhos =====
     const T = C.trabalhos;

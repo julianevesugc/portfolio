@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Julia Neves | Criadora de Conteúdo UGC</title>
-  <meta name="description" content="Julia Neves, criadora de conteúdo UGC. Vídeos autênticos que fazem marcas venderem mais: UGC para anúncios, unboxing, fotos de produto e pacotes mensais.">
+  <meta name="description" content="Julia Neves, criadora UGC e líder de marketing. Conteúdo de gastronomia, experiências e bem-estar que desperta desejo e converte.">
   <meta name="theme-color" content="#f3eee9">
 
   <!-- Fontes do Google: Fraunces (títulos) e Plus Jakarta Sans (textos) -->
@@ -327,8 +327,26 @@
     }
     .filtro:hover { border-color: var(--tinta); }
     .filtro[aria-pressed="true"] { background: var(--tinta); color: var(--creme); border-color: var(--tinta); }
-    .trabalhos-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: clamp(20px, 2.6vw, 32px); }
+    .trabalhos-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: clamp(20px, 2.6vw, 32px); }
     .trabalho .midia { aspect-ratio: 4 / 5; transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+    .trabalho--video .midia { aspect-ratio: 9 / 16; }
+    .trabalho-link { display: block; text-decoration: none; color: inherit; border-radius: var(--raio); outline-offset: 6px; }
+    .trabalho .play { width: 58px; height: 58px; }
+    .trabalho-link:hover .play, .trabalho-link:focus-visible .play { background: var(--marrom); transform: translate(-50%, -50%) scale(1.08); }
+    .trabalho-link:hover .play svg, .trabalho-link:focus-visible .play svg { fill: var(--branco); }
+
+    /* Janela do vídeo */
+    .player { padding: 0; border: 0; background: transparent; max-width: none; max-height: none; overflow: visible; }
+    .player::backdrop { background: rgba(20, 17, 13, .85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    .player-caixa { position: relative; width: min(calc(100vw - 32px), calc(min(76svh, 720px) * 9 / 16)); }
+    .player-video { aspect-ratio: 9 / 16; border-radius: var(--raio); overflow: hidden; background: #000; }
+    .player-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .player-fechar {
+      position: absolute; top: -56px; right: 0; width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+      background: var(--creme); color: var(--tinta); font-size: 1.7rem; line-height: 1; display: grid; place-items: center;
+    }
+    .player-fechar:focus-visible, .player-externo:focus-visible { outline-color: var(--laranja); }
+    .player-externo { display: block; text-align: center; margin-top: 14px; color: var(--creme); font-size: 0.9rem; font-weight: 500; }
     .trabalho-figura { overflow: hidden; border-radius: var(--raio); position: relative; box-shadow: var(--sombra); }
     .trabalho:hover .midia { transform: scale(1.04); }
     .trabalho-formato {
@@ -490,6 +508,11 @@
       .contador { padding-inline: 8px; }
       .cabeca-secao--linha { display: block; }
       .cabeca-secao--linha .filtros { margin-top: 28px; }
+      .trabalhos-grade { grid-template-columns: 1fr 1fr; gap: 24px 14px; }
+      .trabalho h3 { font-size: 1.05rem; }
+      .trabalho .play { width: 46px; height: 46px; }
+      .trabalho .play svg { width: 20px; height: 20px; }
+      .trabalho-formato { top: 10px; right: 10px; font-size: 0.7rem; padding: 4px 10px; }
     }
   </style>
 </head>
@@ -550,6 +573,15 @@
     </section>
   </main>
 
+  <!-- Janela onde os vídeos abrem -->
+  <dialog class="player" id="player" aria-label="Vídeo">
+    <div class="player-caixa">
+      <button class="player-fechar" id="player-fechar" type="button" aria-label="Fechar vídeo">×</button>
+      <div class="player-video" id="player-video"></div>
+      <a class="player-externo" id="player-externo" href="#" target="_blank" rel="noopener">Abrir no YouTube ↗</a>
+    </div>
+  </dialog>
+
   <!-- 8. RODAPÉ -->
   <footer class="rodape">
     <div class="container" id="rodape-conteudo"></div>
@@ -585,7 +617,7 @@
 
       // EDITE AQUI: seus dados principais.
       nome: "Julia Neves",
-      profissao: "Criadora de conteúdo UGC",
+      profissao: "Criadora UGC e líder de marketing",
 
       // EDITE AQUI: seus contatos (o WhatsApp vai com 55 + DDD + número, só números).
       contato: {
@@ -615,7 +647,7 @@
       // EDITE AQUI: a capa (primeira tela do site).
       capa: {
         selo: "Agenda aberta para novos projetos",
-        frase: "Eu crio vídeos que parecem conversa de amiga e vendem como anúncio. Conteúdo autêntico para a sua marca ganhar confiança, engajamento e vendas.",
+        frase: "Conteúdo que dá vontade de provar, viver e comprar. Eu uno olhar estético, estratégia de marketing e anos de experiência em vendas para criar vídeos reais que convertem.",
         botaoPrincipal: "Falar comigo",
         botaoSecundario: "Ver os trabalhos",
         // Os três números curtos que aparecem abaixo dos botões.
@@ -639,9 +671,10 @@
         rotulo: "Sobre mim",
         titulo: "Prazer, eu sou a *Julia*",
         paragrafos: [
-          "Eu transformo produtos em histórias que as pessoas querem assistir até o fim.",
-          "Sou criadora de conteúdo UGC e gravo do jeito que o seu cliente consome: vertical, natural e direto ao ponto. Cada vídeo nasce de um roteiro pensado para o seu público, com gancho forte nos primeiros segundos e uma chamada clara para a ação.",
-          "Gravo em casa, em ambientes reais e bem iluminados, com áudio limpo e edição caprichada. O resultado é um conteúdo que gera identificação, passa confiança e funciona tanto no seu perfil quanto nos seus anúncios."
+          "Eu sei apresentar um lugar, um prato ou uma experiência de um jeito que faz a pessoa querer estar ali.",
+          "Sou criadora de conteúdo UGC e líder de marketing, com foco em gastronomia e experiências. Antes disso, passei muitos anos na área comercial do setor financeiro. Foi lá que aprendi a entender o cliente, negociar e vender. Hoje levo essa visão de negócio para cada roteiro: crio criativos de alta performance, pensados desde o primeiro segundo para converter.",
+          "Junto com a estratégia, tenho um olhar apurado para design e estética. Sei o que faz um conteúdo parecer real e criar conexão, sem perder o objetivo de venda.",
+          "Também sou pós-bariátrica e vivi grandes transformações. Hoje cuido da minha saúde com carinho e tenho uma relação leve e prazerosa com a comida. Autoestima e autocuidado me movem de verdade, e isso aparece em tudo o que eu crio."
         ],
         entregasTitulo: "O que vai junto com cada vídeo",
         entregas: [
@@ -657,8 +690,11 @@
       },
 
       // EDITE AQUI: seus três melhores conteúdos.
-      // "link" é onde entra o endereço do vídeo (Instagram, TikTok, YouTube ou Google Drive).
-      // "capa" é onde entra a imagem de capa vertical 9:16 (exemplo: "capa-skincare.jpg"). Vazio mostra o gradiente.
+      // "youtube" é onde entra o link do vídeo no YouTube (pode ser não listado). A capa vem do próprio YouTube
+      // e o vídeo abre dentro do site.
+      // Para usar outro tipo de link (Instagram, TikTok, Google Drive), deixe "youtube" vazio e coloque o endereço em "link".
+      // "capa" é onde entra uma imagem de capa vertical 9:16 sua (exemplo: "capa-sams.jpg"), se quiser trocar a do YouTube.
+      // "numero" pode ficar vazio ("") se você ainda não tiver o resultado daquele vídeo.
       destaques: {
         rotulo: "Conteúdos de destaque",
         titulo: "Os vídeos que *mais* deram resultado",
@@ -666,42 +702,46 @@
         itens: [
           {
             numero: "+2,2M", rotulo: "de visualizações",
-            titulo: "Rotina de skincare em 30 segundos",
-            contexto: "Vídeo para marca de dermocosméticos que esgotou o sérum em 48 horas.",
-            link: "#", capa: "", alt: "Capa do vídeo de rotina de skincare", formato: "Reels", cor: 0
+            titulo: "1 ano de parceria com o Sam's Club",
+            contexto: "Um ano criando conteúdo para o Sam's Club, com o vídeo que mais alcançou pessoas.",
+            youtube: "https://youtube.com/shorts/TZJI1O8mX-0",
+            link: "", capa: "", alt: "Vídeo de 1 ano de parceria com o Sam's Club", formato: "Parceria", cor: 0
           },
           {
-            numero: "8,7%", rotulo: "de cliques no anúncio",
-            titulo: "Primeiras impressões da air fryer",
-            contexto: "Criativo que virou o campeão de vendas da campanha de lançamento.",
-            link: "#", capa: "", alt: "Capa do vídeo de unboxing da air fryer", formato: "Anúncio", cor: 4
+            numero: "", rotulo: "Marketplace",
+            titulo: "Demonstrativo Mercado Livre",
+            contexto: "Produto apresentado em uso real, do jeito que faz a pessoa querer comprar.",
+            youtube: "https://youtube.com/shorts/DOgFg05Uiqc",
+            link: "", capa: "", alt: "Vídeo demonstrativo para o Mercado Livre", formato: "UGC", cor: 4
           },
           {
-            numero: "+31 mil", rotulo: "salvamentos",
-            titulo: "Organizando a cozinha pequena",
-            contexto: "Conteúdo de casa que virou referência e trouxe novos seguidores para a marca.",
-            link: "#", capa: "", alt: "Capa do vídeo de organização de cozinha", formato: "TikTok", cor: 2
+            numero: "", rotulo: "Gastronomia",
+            titulo: "Experiência no restaurante",
+            contexto: "O lugar, os pratos e o clima mostrados de um jeito que dá vontade de reservar uma mesa.",
+            youtube: "https://youtube.com/shorts/vMQv1EDwixg",
+            link: "", capa: "", alt: "Vídeo demonstrativo de restaurante", formato: "Experiência", cor: 2
           }
         ]
       },
 
       // EDITE AQUI: seus trabalhos por nicho.
       // As categorias viram os botões de filtro. A "categoria" de cada trabalho precisa ser escrita igual à lista.
+      // Para adicionar um vídeo novo, copie uma linha, troque o link do "youtube" e os textos.
+      // Sem link do YouTube, o card mostra a foto do campo "imagem" ou um gradiente.
       trabalhos: {
-        rotulo: "Trabalhos",
+        rotulo: "Trabalhos selecionados",
         titulo: "Conteúdo para *cada* nicho",
         textoTodos: "Todos",
-        categorias: ["Beleza", "Casa", "Comida", "Moda", "Fitness"],
+        categorias: ["Mercados", "Gastronomia", "Marketplace"],
         itens: [
-          { categoria: "Beleza", titulo: "Sérum facial antes e depois", marca: "Bella Pele", formato: "Vídeo UGC", imagem: "", alt: "Julia aplicando sérum facial", cor: 1 },
-          { categoria: "Casa", titulo: "Manta que transforma a sala", marca: "Lar e Cor", formato: "Unboxing", imagem: "", alt: "Sala aconchegante com manta sobre o sofá", cor: 3 },
-          { categoria: "Comida", titulo: "Café da manhã em 5 minutos", marca: "Café Serrano", formato: "Reels", imagem: "", alt: "Mesa de café da manhã com xícara e pães", cor: 6 },
-          { categoria: "Moda", titulo: "Três looks com uma peça só", marca: "Ateliê Aurora", formato: "Fotos e vídeo", imagem: "", alt: "Julia mostrando um look em frente ao espelho", cor: 5 },
-          { categoria: "Fitness", titulo: "Treino rápido com elástico", marca: "Move Fit", formato: "Anúncio", imagem: "", alt: "Julia treinando com elástico de resistência", cor: 2 },
-          { categoria: "Beleza", titulo: "Maquiagem do dia a dia", marca: "Bella Pele", formato: "Tutorial", imagem: "", alt: "Produtos de maquiagem sobre a bancada", cor: 4 },
-          { categoria: "Casa", titulo: "Organização do quarto do bebê", marca: "Nuvem Baby", formato: "Vídeo UGC", imagem: "", alt: "Quarto de bebê organizado com cestos", cor: 7 },
-          { categoria: "Comida", titulo: "Receita prática de jantar", marca: "Sabor da Vila", formato: "Corte para anúncio", imagem: "", alt: "Prato de jantar servido na mesa", cor: 1 },
-          { categoria: "Moda", titulo: "Provador de bolsas", marca: "Casa Lume", formato: "Unboxing", imagem: "", alt: "Bolsas sobre a cama prontas para o provador", cor: 0 }
+          { categoria: "Mercados", titulo: "Demonstrativo Sam's Club", marca: "Sam's Club", formato: "UGC", youtube: "https://youtube.com/shorts/ddxrY7ZekGA", imagem: "", alt: "Vídeo demonstrativo para o Sam's Club", cor: 0 },
+          { categoria: "Mercados", titulo: "Novidades da semana", marca: "Sam's Club", formato: "UGC", youtube: "https://youtube.com/shorts/2JG8QEOd4yA", imagem: "", alt: "Vídeo mostrando novidades do mercado", cor: 1 },
+          { categoria: "Mercados", titulo: "Promoção imperdível", marca: "Sam's Club", formato: "Anúncio", youtube: "https://youtube.com/shorts/88uiSZwwELk", imagem: "", alt: "Vídeo de promoção do Sam's Club", cor: 2 },
+          { categoria: "Gastronomia", titulo: "Experiência no restaurante", marca: "Restaurante", formato: "Experiência", youtube: "https://youtube.com/shorts/vMQv1EDwixg", imagem: "", alt: "Vídeo demonstrativo de restaurante", cor: 3 },
+          { categoria: "Gastronomia", titulo: "Promoção de esfirras", marca: "Restaurante", formato: "Anúncio", youtube: "https://youtube.com/shorts/MU9BD41fO3I", imagem: "", alt: "Vídeo de promoção de esfirras", cor: 4 },
+          { categoria: "Gastronomia", titulo: "Um lugar para conhecer", marca: "Restaurante", formato: "Experiência", youtube: "https://youtube.com/shorts/kgZcyHtWLlI", imagem: "", alt: "Vídeo demonstrativo de restaurante", cor: 6 },
+          { categoria: "Marketplace", titulo: "Demonstrativo Mercado Livre", marca: "Mercado Livre", formato: "UGC", youtube: "https://youtube.com/shorts/DOgFg05Uiqc", imagem: "", alt: "Vídeo demonstrativo para o Mercado Livre", cor: 5 },
+          { categoria: "Marketplace", titulo: "Demonstrativo Open English", marca: "Open English", formato: "UGC", youtube: "https://youtube.com/shorts/tGSIzKMck8U", imagem: "", alt: "Vídeo demonstrativo para a Open English", cor: 7 }
         ]
       },
 
@@ -709,14 +749,14 @@
       servicos: {
         rotulo: "Como eu te ajudo",
         titulo: "Serviços pensados para *vender*",
-        intro: "Do vídeo avulso ao pacote mensal, cada entrega é planejada para o objetivo da sua marca.",
+        intro: "Do vídeo avulso ao pacote mensal, cada entrega é planejada com olhar de quem entende de marketing e de vendas.",
         itens: [
           { titulo: "Vídeo UGC", descricao: "Vídeo vertical com roteiro, gravação e edição, feito para o seu perfil, site ou loja online.", ideal: "Ideal para gerar confiança no produto" },
-          { titulo: "Corte para anúncio", descricao: "Versões curtas com ganchos diferentes para você testar nos anúncios e descobrir qual vende mais.", ideal: "Ideal para campanhas pagas" },
-          { titulo: "Fotos de produto", descricao: "Fotos naturais, com o produto em uso e em ambientes reais, prontas para redes sociais e e-commerce.", ideal: "Ideal para vitrine e catálogo" },
-          { titulo: "Unboxing", descricao: "A primeira impressão real do seu produto, da embalagem ao uso, com aquela emoção que desperta desejo.", ideal: "Ideal para lançamentos" },
+          { titulo: "Experiências gastronômicas", descricao: "Visito o seu restaurante, café ou bar e mostro o lugar, os pratos e o clima de um jeito que dá vontade de ir.", ideal: "Ideal para restaurantes, cafés e bares" },
+          { titulo: "Criativos de alta performance", descricao: "Versões curtas com ganchos diferentes, roteirizadas para anúncio, para você testar e descobrir qual vende mais.", ideal: "Ideal para campanhas pagas" },
+          { titulo: "Fotos de produto e ambiente", descricao: "Fotos naturais e bem compostas, com o produto em uso e em ambientes reais, prontas para redes sociais e e-commerce.", ideal: "Ideal para vitrine e catálogo" },
           { titulo: "Publicação no perfil", descricao: "Além de criar, publico o conteúdo no meu perfil para levar a sua marca até o meu público.", ideal: "Ideal para alcance e prova social" },
-          { titulo: "Pacote mensal", descricao: "Uma quantidade fixa de vídeos por mês, com planejamento de pauta e prioridade na agenda.", ideal: "Ideal para marcas que querem constância" }
+          { titulo: "Pacote mensal com estratégia", descricao: "Uma quantidade fixa de vídeos por mês, com planejamento de pauta, análise do que funcionou e prioridade na agenda.", ideal: "Ideal para marcas que querem constância" }
         ]
       },
 
@@ -759,7 +799,7 @@
 
       // EDITE AQUI: o rodapé.
       rodape: {
-        frase: "Conteúdo autêntico que gera resultado para marcas.",
+        frase: "Conteúdo real, com olhar estético e estratégia de vendas.",
         voltarAoTopo: "Voltar ao topo"
       }
     };
@@ -786,6 +826,15 @@
       const acessivel = decorativa ? 'aria-hidden="true"' : `role="img" aria-label="${esc(m.alt)}"`;
       return `<div class="midia" ${acessivel} style="background-image:${gradiente(m.cor)}"></div>`;
     }
+
+    // Pega o código do vídeo a partir de qualquer link do YouTube (shorts, watch ou youtu.be).
+    function idYoutube(link) {
+      const achado = String(link || "").match(/(?:shorts\/|youtu\.be\/|[?&]v=|embed\/)([\w-]{11})/);
+      return achado ? achado[1] : "";
+    }
+    const capaYoutube = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    const linkYoutube = (id) => `https://www.youtube.com/shorts/${id}`;
+    const iconePlay = '<span class="play" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>';
 
     function partesDoNome(nome) {
       const partes = nome.trim().split(" ");
@@ -864,18 +913,22 @@
       <div class="cabeca-secao revelar">${cabecalho("destaques-titulo", C.destaques.rotulo, C.destaques.titulo, C.destaques.intro)}</div>
       <div class="destaques-grade">
         ${C.destaques.itens.map((d, i) => {
-          const externo = d.link && d.link !== "#";
+          const video = idYoutube(d.youtube);
+          const endereco = video ? linkYoutube(video) : (d.link || "#");
+          const externo = !video && endereco !== "#";
+          const resumo = [d.numero, d.rotulo].filter(Boolean).join(" ");
           return `
-          <a class="destaque revelar" style="--atraso:${i * 0.12}s" href="${esc(d.link || "#")}"
+          <a class="destaque revelar" style="--atraso:${i * 0.12}s" href="${esc(endereco)}"
+             ${video ? `data-video="${video}" data-titulo="${esc(d.titulo)}"` : ""}
              ${externo ? 'target="_blank" rel="noopener"' : ""}
-             aria-label="Assistir: ${esc(d.titulo)}. ${esc(d.numero)} ${esc(d.rotulo)}.${externo ? " Abre em nova aba." : ""}">
+             aria-label="Assistir: ${esc(d.titulo)}. ${esc(resumo)}.${externo ? " Abre em nova aba." : ""}">
             <div class="destaque-capa">
-              ${midia({ imagem: d.capa, alt: d.alt, cor: d.cor }, true)}
+              ${midia({ imagem: d.capa || (video ? capaYoutube(video) : ""), alt: d.alt, cor: d.cor }, true)}
               <span class="destaque-tag">${esc(d.formato)}</span>
-              <span class="play" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+              ${iconePlay}
             </div>
             <div class="destaque-info">
-              <p class="destaque-numero">${esc(d.numero)}</p>
+              ${d.numero ? `<p class="destaque-numero">${esc(d.numero)}</p>` : ""}
               <p class="destaque-rotulo">${esc(d.rotulo)}</p>
               <h3>${esc(d.titulo)}</h3>
               <p class="destaque-contexto">${esc(d.contexto)}</p>
@@ -896,18 +949,23 @@
       </div>
       <p class="sr-only" id="trabalhos-aviso" aria-live="polite"></p>
       <ul class="trabalhos-grade" style="list-style:none;margin:0;padding:0">
-        ${T.itens.map((t, i) => `
-          <li class="trabalho revelar" style="--atraso:${(i % 3) * 0.1}s" data-categoria="${esc(t.categoria)}">
+        ${T.itens.map((t, i) => {
+          const video = idYoutube(t.youtube);
+          const conteudo = `
             <div class="trabalho-figura">
-              ${midia(t)}
+              ${video ? midia({ imagem: t.imagem || capaYoutube(video), alt: t.alt }, true) + iconePlay : midia(t)}
               <span class="trabalho-formato">${esc(t.formato)}</span>
             </div>
             <div class="trabalho-info">
               <p class="trabalho-categoria">${esc(t.categoria)}</p>
               <h3>${esc(t.titulo)}</h3>
               <p class="trabalho-marca">${esc(t.marca)}</p>
-            </div>
-          </li>`).join("")}
+            </div>`;
+          return `
+          <li class="trabalho revelar${video ? " trabalho--video" : ""}" style="--atraso:${(i % 4) * 0.08}s" data-categoria="${esc(t.categoria)}">
+            ${video ? `<a class="trabalho-link" href="${linkYoutube(video)}" data-video="${video}" data-titulo="${esc(t.titulo)}" aria-label="Assistir: ${esc(t.titulo)}, ${esc(t.marca)}">${conteudo}</a>` : conteudo}
+          </li>`;
+        }).join("")}
       </ul>`;
 
     document.querySelectorAll(".filtro").forEach((botao) => {
@@ -928,6 +986,37 @@
         });
         $("#trabalhos-aviso").textContent = `${total} ${total === 1 ? "trabalho exibido" : "trabalhos exibidos"}.`;
       });
+    });
+
+    // Player de vídeo: abre o vídeo do YouTube por cima da página, sem sair do site.
+    const player = $("#player");
+    const playerVideo = $("#player-video");
+    let focoAnterior = null;
+    function abrirVideo(id, titulo) {
+      focoAnterior = document.activeElement;
+      playerVideo.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1"
+        title="${esc(titulo)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+      $("#player-externo").href = linkYoutube(id);
+      player.showModal();
+    }
+    document.addEventListener("click", (e) => {
+      const alvo = e.target.closest("[data-video]");
+      if (!alvo) return;
+      e.preventDefault();
+      // Aberto direto do computador (sem estar publicado), o YouTube bloqueia o player dentro da página.
+      // Nesse caso o vídeo abre no próprio YouTube, em outra aba.
+      if (location.protocol === "file:" || typeof player.showModal !== "function") {
+        window.open(alvo.href, "_blank", "noopener");
+        return;
+      }
+      abrirVideo(alvo.dataset.video, alvo.dataset.titulo || "Vídeo");
+    });
+    $("#player-fechar").addEventListener("click", () => player.close());
+    player.addEventListener("click", (e) => { if (e.target === player) player.close(); });
+    player.addEventListener("close", () => {
+      playerVideo.innerHTML = "";
+      if (focoAnterior) focoAnterior.focus();
     });
 
     // ===== 5. Serviços =====

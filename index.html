@@ -297,7 +297,16 @@
     /* =========================================================
        3. DESTAQUES
        ========================================================= */
-    .destaques { background: var(--branco); }
+    .destaque-chamada {
+      font-family: var(--fonte-nome); font-size: clamp(3rem, 1.6rem + 6.5vw, 6.6rem); line-height: .95; letter-spacing: -0.02em; font-weight: 400;
+    }
+    .destaque-chamada em { display: block; font-style: italic; font-weight: 400; color: var(--marrom); }
+    .destaque-subtitulo { font-family: var(--serif); font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem); line-height: 1.2; margin-top: 22px; }
+    .destaque-subtitulo em { font-style: italic; font-weight: 300; color: var(--marrom); }
+    .destaque-numeros { align-items: flex-end; }
+    /* "Julia" no título do Sobre usa a mesma fonte do nome, com o J alinhado na linha */
+    #sobre-titulo em { font-family: var(--fonte-nome); font-style: normal; font-weight: 400; }
+    .destaque-numeros dd.grande { font-size: clamp(3.6rem, 2.4rem + 5vw, 6rem); }
     .destaque-grade { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(40px, 7vw, 110px); align-items: center; }
     .destaque-video { width: 100%; max-width: 380px; justify-self: center; order: -1; }
     .destaque-numeros { display: flex; flex-wrap: wrap; gap: 20px clamp(28px, 4vw, 56px); margin: 36px 0 0; padding: 28px 0; border-block: 1px solid var(--linha); }
@@ -678,7 +687,9 @@
         videoDestaque: "",
         // Foto da capa, usada quando não há vídeo em destaque. A foto fica na mesma pasta deste arquivo.
         foto: { imagem: "julia-capa.jpg", alt: "Julia Neves sorrindo, com roupa rosa, sentada em um estúdio de fundo claro", cor: 0 },
-        // Cartãozinho que fica por cima do vídeo ou da foto (ao clicar, leva para o conteúdo destaque).
+        // Cartãozinho por cima da foto (ao clicar, leva para o conteúdo destaque).
+        // Para mostrar, troque false por true.
+        mostrarCartao: false,
         cartaoNumero: "+2,2M visualizações",
         cartaoTexto: "1 ano de parceria com o Sam's Club"
       },
@@ -714,18 +725,23 @@
       // "youtube" é o link do vídeo no YouTube (pode ser não listado). A capa vem do próprio YouTube e o vídeo abre dentro do site.
       // "capa" é onde entra uma imagem de capa vertical 9:16 sua (exemplo: "capa-sams.jpg"), se quiser trocar a do YouTube.
       destaque: {
-        rotulo: "Conteúdo destaque",
-        titulo: "1 ano de parceria com o *Sam's Club*",
+        rotulo: "Sam's Club · 1 ano de parceria",
+        // Título grande da seção. A palavra entre *asteriscos* fica em itálico marrom.
+        chamada: "Conteúdo *destaque*",
+        subtitulo: "Mais de *2,2 milhões* de visualizações em um único vídeo",
+        // Nome do vídeo (aparece para quem usa leitor de tela e na janela do vídeo).
+        titulo: "1 ano de parceria com o Sam's Club",
         youtube: "https://youtube.com/shorts/TZJI1O8mX-0",
         capa: "",
         formato: "Parceria",
         numeros: [
-          { valor: "1 ano", rotulo: "de parceria com o Sam's Club" },
-          { valor: "+2,2M", rotulo: "de visualizações neste vídeo" }
+          // "grande: true" deixa o número maior que os outros.
+          { valor: "+2,2M", rotulo: "de visualizações em um só vídeo", grande: true },
+          { valor: "1 ano", rotulo: "de parceria com o Sam's Club" }
         ],
         paragrafos: [
-          "Há um ano eu crio conteúdo para o Sam's Club. Mostro produtos, novidades e promoções do jeito que o cliente gosta de ver: dentro da loja, na prática, com informação clara e a linguagem de quem usa de verdade.",
-          "Este vídeo é um dos frutos dessa parceria. Ele passou de 2,2 milhões de visualizações e mostra o que acontece quando uma marca confia em conteúdo real, feito com estratégia."
+          "Um único vídeo, mais de 2,2 milhões de visualizações. Esse é o resultado da minha parceria com o Sam's Club, que acaba de completar um ano.",
+          "Há um ano eu crio conteúdo para o Sam's Club. Mostro produtos, novidades e promoções do jeito que o cliente gosta de ver: dentro da loja, na prática, com informação clara e a linguagem de quem usa de verdade. É isso que acontece quando uma marca confia em conteúdo real, feito com estratégia."
         ],
         botaoPrincipal: "Assistir ao vídeo",
         botaoSecundario: "Ver mais trabalhos"
@@ -778,12 +794,6 @@
           { valor: 87, casas: 0, prefixo: "", sufixo: "%", rotulo: "das marcas me recontratam" },
           { valor: 5, casas: 0, prefixo: "", sufixo: " dias", rotulo: "de prazo médio de entrega" },
           { valor: 2.2, casas: 1, prefixo: "+", sufixo: "M", rotulo: "de alcance no maior vídeo" }
-        ],
-        resultadosTitulo: "Resultados de *campanha*",
-        resultados: [
-          { marca: "Bella Pele", metrica: "3,2x", rotulo: "retorno sobre o investimento", descricao: "Campanha de anúncios com cinco variações de vídeo UGC para o lançamento de um sérum." },
-          { marca: "Casa Lume", metrica: "-38%", rotulo: "no custo por compra", descricao: "Os vídeos UGC substituíram as peças de estúdio e baratearam cada venda." },
-          { marca: "Move Fit", metrica: "+1.200", rotulo: "vendas em 30 dias", descricao: "Série de vídeos de treino que levou o produto ao topo da loja online." }
         ],
         depoimentosTitulo: "O que as *marcas* dizem",
         depoimentos: [
@@ -894,10 +904,10 @@
                ${midia({ imagem: capaYoutube(videoCapa) }, true, true)}${iconePlay}
              </a>`
           : midia(C.capa.foto, false, true)}
-        <a class="capa-cartao" href="#destaques">
+        ${C.capa.mostrarCartao ? `<a class="capa-cartao" href="#destaques">
           <span class="play-mini" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fffcf8"><path d="M7 4.5v15l13-7.5z"/></svg></span>
           <span><strong>${esc(C.capa.cartaoNumero)}</strong><small>${esc(C.capa.cartaoTexto)}</small></span>
-        </a>
+        </a>` : ""}
       </div>`;
 
     // Faixa de marcas: a lista aparece duas vezes para o movimento ser contínuo (a cópia fica escondida do leitor de tela).
@@ -933,9 +943,13 @@
       : 'href="#"';
     $("#destaques-conteudo").innerHTML = `
       <div class="destaque-texto">
-        <div class="revelar">${cabecalho("destaques-titulo", D.rotulo, D.titulo)}</div>
+        <div class="revelar">
+          <p class="rotulo">${esc(D.rotulo)}</p>
+          <h2 class="destaque-chamada" id="destaques-titulo">${enfase(D.chamada)}</h2>
+          <p class="destaque-subtitulo">${enfase(D.subtitulo)}</p>
+        </div>
         <dl class="destaque-numeros revelar" style="--atraso:.1s">
-          ${D.numeros.map((n) => `<div><dt>${esc(n.rotulo)}</dt><dd>${esc(n.valor)}</dd></div>`).join("")}
+          ${D.numeros.map((n) => `<div><dt>${esc(n.rotulo)}</dt><dd${n.grande ? ' class="grande"' : ""}>${esc(n.valor)}</dd></div>`).join("")}
         </dl>
         <div class="destaque-paragrafos revelar" style="--atraso:.16s">${D.paragrafos.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
         <div class="capa-botoes revelar" style="--atraso:.22s">
@@ -1062,17 +1076,6 @@
             <p class="contador-rotulo">${esc(c.rotulo)}</p>
           </div>`).join("")}
       </div>
-
-      <h3 class="subtitulo-bloco revelar">${enfase(N.resultadosTitulo)}</h3>
-      <ul class="resultados-grade" style="list-style:none;margin:0;padding:0">
-        ${N.resultados.map((r, i) => `
-          <li class="resultado revelar" style="--atraso:${i * 0.1}s">
-            <p class="resultado-marca">${esc(r.marca)}</p>
-            <p class="resultado-metrica">${esc(r.metrica)}</p>
-            <p class="resultado-rotulo">${esc(r.rotulo)}</p>
-            <p>${esc(r.descricao)}</p>
-          </li>`).join("")}
-      </ul>
 
       <h3 class="subtitulo-bloco revelar">${enfase(N.depoimentosTitulo)}</h3>
       <div class="depoimentos-grade">

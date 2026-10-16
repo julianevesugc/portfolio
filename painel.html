@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel | meu.painel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Supabase por CDN e depois a autenticação compartilhada -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+
+  <style>
+    /* ===== Design system ===== */
+    :root {
+      --coral: #D4572A;
+      --coral-escuro: #B8461F;
+      --coral-suave: #FBEDE7;
+      --creme: #F5F3EF;
+      --branco: #FFFFFF;
+      --grafite: #1A1816;
+      --texto-suave: #6B645C;
+      --borda: #DDD8D0;
+      --verde: #2D7A4F;
+      --vermelho: #C4453C;
+
+      --fonte-titulo: 'Fraunces', Georgia, serif;
+      --fonte-texto: 'Outfit', system-ui, -apple-system, sans-serif;
+
+      --raio-p: 12px;
+      --raio-m: 16px;
+      --raio-g: 24px;
+      --sombra: 0 1px 2px rgba(26, 24, 22, .04), 0 10px 28px rgba(26, 24, 22, .06);
+
+      --largura-sidebar: 248px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--creme);
+      color: var(--grafite);
+      font-family: var(--fonte-texto);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* O conteúdo só aparece depois que o guarda confirma a sessão */
+    body.oculto { visibility: hidden; }
+
+    button { font: inherit; color: inherit; }
+    a { color: inherit; }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--largura-sidebar);
+      background: var(--branco);
+      border-right: 1px solid var(--borda);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 18px 20px;
+      z-index: 30;
+      transition: transform .25s ease;
+    }
+
+    .logo {
+      font-family: var(--fonte-titulo);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      padding: 0 10px;
+      margin-bottom: 32px;
+    }
+    .logo span { color: var(--coral); }
+
+    .menu { display: flex; flex-direction: column; gap: 4px; }
+
+    .aba {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      background: none;
+      border: none;
+      border-radius: var(--raio-p);
+      padding: 11px 12px;
+      font-weight: 500;
+      color: var(--texto-suave);
+      text-align: left;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .aba svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .aba:hover { background: var(--creme); color: var(--grafite); }
+    .aba.ativa { background: var(--coral-suave); color: var(--coral-escuro); }
+
+    .sidebar-rodape {
+      margin-top: auto;
+      border-top: 1px solid var(--borda);
+      padding: 16px 10px 0;
+    }
+    .usuario-rotulo { font-size: 12px; color: var(--texto-suave); }
+    .usuario-email {
+      font-size: 14px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-bottom: 12px;
+    }
+    .botao-sair {
+      width: 100%;
+      background: var(--creme);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      padding: 9px 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+    .botao-sair:hover { border-color: var(--coral); color: var(--coral); }
+
+    .fundo-gaveta {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 24, 22, .35);
+      z-index: 20;
+    }
+
+    /* ===== Área de conteúdo ===== */
+    .conteudo {
+      margin-left: var(--largura-sidebar);
+      padding: 28px 40px 56px;
+      max-width: calc(1160px + var(--largura-sidebar));
+    }
+
+    .topo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .topo-esquerda { display: flex; align-items: center; gap: 12px; }
+
+    .botao-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-p);
+      cursor: pointer;
+    }
+    .botao-menu svg { width: 20px; height: 20px; }
+
+    .titulo-pagina {
+      font-family: var(--fonte-titulo);
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+
+    /* Filtro de período (controle segmentado) */
+    .periodos {
+      display: inline-flex;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 2px;
+    }
+    .periodo {
+      background: none;
+      border: none;
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--texto-suave);
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .periodo:hover { color: var(--grafite); }
+    .periodo.ativo { background: var(--grafite); color: var(--branco); }
+
+    .alerta {
+      background: #FBECEA;
+      color: var(--vermelho);
+      border: 1px solid #F0CBC7;
+      border-radius: var(--raio-p);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    .alerta[hidden] { display: none; }
+
+    .painel[hidden] { display: none; }
+
+    .saudacao { color: var(--texto-suave); font-size: 16px; margin-bottom: 20px; }
+
+    .cartao {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-g);
+      box-shadow: var(--sombra);
+      padding: 24px;
+    }
+    .cartao h2 {
+      font-family: var(--fonte-titulo);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      margin-bottom: 4px;
+    }
+    .cartao .descricao { color: var(--texto-suave); font-size: 14px; margin-bottom: 20px; }
+
+    /* ===== Cartões de número ===== */
+    .numeros {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .numero {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-m);
+      box-shadow: var(--sombra);
+      padding: 18px 18px 20px;
+    }
+    .numero-rotulo { font-size: 13px; color: var(--texto-suave); margin-bottom: 8px; }
+    .numero-valor {
+      font-family: var(--fonte-titulo);
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+    .numero.destaque { background: var(--coral); border-color: var(--coral); color: var(--branco); }
+    .numero.destaque .numero-rotulo { color: rgba(255, 255, 255, .85); }
+
+    /* Cartão "Clicaram para entrar em contato" */
+    .contato-destaque {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 16px;
+      background: var(--grafite);
+      border-color: var(--grafite);
+      color: var(--branco);
+    }
+    .contato-destaque .numero-valor { font-size: 52px; color: #F3A684; }
+    .contato-destaque h2 { margin-bottom: 4px; }
+    .contato-destaque p { font-size: 13px; color: rgba(255, 255, 255, .7); }
+
+    /* ===== Gráfico de barras (CSS puro) ===== */
+    .grafico {
+      display: grid;
+      grid-template-columns: repeat(14, minmax(0, 1fr));
+      gap: 8px;
+      align-items: end;
+      height: 220px;
+      padding-top: 24px;
+      border-bottom: 1px solid var(--borda);
+    }
+    .coluna {
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      outline: none;
+    }
+    .barra {
+      width: 100%;
+      min-height: 3px;
+      background: #EBC2B1;
+      border-radius: 8px 8px 3px 3px;
+      transition: background .15s;
+    }
+    .coluna.hoje .barra { background: var(--coral); }
+    .coluna:hover .barra, .coluna:focus .barra { background: var(--coral-escuro); }
+    .dica {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translate(-50%, 4px);
+      background: var(--grafite);
+      color: var(--branco);
+      font-size: 12px;
+      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .12s, transform .12s;
+      z-index: 2;
+    }
+    .coluna:hover .dica, .coluna:focus .dica { opacity: 1; transform: translate(-50%, 0); }
+    .coluna .valor-barra {
+      position: absolute;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 11px;
+      color: var(--texto-suave);
+    }
+    .eixo {
+      display: grid;
+      grid-template-columns: repeat(14, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--texto-suave);
+      text-align: center;
+    }
+
+    /* ===== Aba Portfólio ===== */
+    .grade-portfolio {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .grade-portfolio .largo { grid-column: 1 / -1; }
+
+    .lista { display: flex; flex-direction: column; gap: 14px; }
+
+    /* Linhas com barra horizontal */
+    .linha-barra-topo {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    .linha-barra-topo strong { font-weight: 600; }
+    .trilho { height: 10px; background: var(--creme); border-radius: 999px; overflow: hidden; }
+    .preenchido { height: 100%; background: var(--coral); border-radius: 999px; }
+    .preenchido.verde { background: var(--verde); }
+
+    /* Vídeos */
+    .video { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 14px; align-items: center; }
+    .video img {
+      width: 128px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: var(--raio-p);
+      background: var(--creme);
+      display: block;
+    }
+    .video a.miniatura { border-radius: var(--raio-p); display: block; transition: opacity .15s; }
+    .video a.miniatura:hover { opacity: .85; }
+    .video-titulo {
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Mensagens recebidas */
+    .mensagem {
+      border: 1px solid var(--borda);
+      border-radius: var(--raio-m);
+      background: var(--branco);
+      overflow: hidden;
+    }
+    .mensagem summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 6px 14px;
+      align-items: center;
+    }
+    .mensagem summary::-webkit-details-marker { display: none; }
+    .mensagem summary:hover { background: #FBFAF8; }
+    .mensagem[open] summary { border-bottom: 1px solid var(--borda); }
+    .mensagem-nome { font-weight: 600; }
+    .mensagem-email { font-size: 13px; color: var(--texto-suave); overflow: hidden; text-overflow: ellipsis; }
+    .mensagem-data { font-size: 13px; color: var(--texto-suave); text-align: right; white-space: nowrap; }
+    .seta { transition: transform .2s; color: var(--texto-suave); }
+    .mensagem[open] .seta { transform: rotate(180deg); }
+
+    .selo {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--coral-suave);
+      color: var(--coral-escuro);
+    }
+    .selo.popup { background: #ECEAE6; color: var(--grafite); }
+
+    .mensagem-corpo { padding: 18px; }
+    .detalhes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .detalhe-rotulo { font-size: 12px; color: var(--texto-suave); }
+    .detalhe-valor { font-size: 14px; font-weight: 500; word-break: break-word; }
+    .mensagem-texto {
+      background: var(--creme);
+      border-radius: var(--raio-p);
+      padding: 14px 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 16px;
+    }
+    .acoes { display: flex; flex-wrap: wrap; gap: 10px; }
+    .botao-acao {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--raio-p);
+      background: var(--coral);
+      color: var(--branco);
+      transition: background .15s;
+    }
+    .botao-acao:hover { background: var(--coral-escuro); }
+    .botao-acao.whatsapp { background: var(--verde); }
+    .botao-acao.whatsapp:hover { background: #23613F; }
+
+    /* Estados vazio e carregando */
+    .vazio {
+      text-align: center;
+      color: var(--texto-suave);
+      padding: 28px 16px;
+      background: var(--creme);
+      border-radius: var(--raio-m);
+      font-size: 14px;
+    }
+
+    /* ===== Responsivo ===== */
+    @media (max-width: 1180px) {
+      .numeros { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); box-shadow: none; }
+      .sidebar.aberta { transform: translateX(0); box-shadow: 0 0 40px rgba(26, 24, 22, .18); }
+      .fundo-gaveta.visivel { display: block; }
+      .botao-menu { display: inline-flex; }
+      .conteudo { margin-left: 0; padding: 20px 16px 48px; }
+      .titulo-pagina { font-size: 26px; }
+      .grade-portfolio { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .numero.destaque { grid-column: 1 / -1; }
+      .numero-valor { font-size: 28px; }
+      .topo { flex-direction: column; align-items: stretch; }
+      .periodos { justify-content: space-between; }
+      .periodo { flex: 1; padding: 7px 8px; }
+      .contato-destaque { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .grafico { gap: 4px; height: 180px; }
+      .eixo { gap: 4px; font-size: 10px; }
+      .coluna .valor-barra { display: none; }
+      .video { grid-template-columns: 96px minmax(0, 1fr); }
+      .video img { width: 96px; }
+      .mensagem summary { grid-template-columns: auto minmax(0, 1fr) auto; }
+      .mensagem-data { grid-column: 2 / 3; text-align: left; }
+      .detalhes { grid-template-columns: minmax(0, 1fr); }
+      .cartao { padding: 20px 18px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body class="oculto">
+
+  <!-- ===== Menu lateral ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">meu<span>.</span>painel</div>
+
+    <nav class="menu" aria-label="Seções do painel">
+      <button class="aba ativa" data-tab="menu-principal" data-titulo="Menu Principal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>
+        </svg>
+        Menu Principal
+      </button>
+      <button class="aba" data-tab="portfolio" data-titulo="Portfólio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/>
+        </svg>
+        Portfólio
+      </button>
+    </nav>
+
+    <div class="sidebar-rodape">
+      <div class="usuario-rotulo">Conectado como</div>
+      <div class="usuario-email" id="usuario-email"></div>
+      <button class="botao-sair" id="botao-sair">Sair</button>
+    </div>
+  </aside>
+  <div class="fundo-gaveta" id="fundo-gaveta"></div>
+
+  <!-- ===== Conteúdo ===== -->
+  <main class="conteudo">
+    <header class="topo">
+      <div class="topo-esquerda">
+        <button class="botao-menu" id="botao-menu" aria-label="Abrir menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+        <h1 class="titulo-pagina" id="titulo-pagina">Menu Principal</h1>
+      </div>
+
+      <div class="periodos" role="group" aria-label="Período">
+        <button class="periodo ativo" data-periodo="tudo">Tudo</button>
+        <button class="periodo" data-periodo="7">7d</button>
+        <button class="periodo" data-periodo="30">30d</button>
+        <button class="periodo" data-periodo="90">90d</button>
+      </div>
+    </header>
+
+    <div class="alerta" id="alerta" role="alert" hidden></div>
+
+    <!-- ===== Aba 1: Menu Principal ===== -->
+    <section class="painel" id="menu-principal">
+      <p class="saudacao">Olá! Aqui estão os números do seu portfólio.</p>
+
+      <div class="numeros">
+        <div class="numero destaque">
+          <div class="numero-rotulo">Visitas</div>
+          <div class="numero-valor" id="n-visitas">...</div>
+        </div>
+        <div class="numero">
+          <div class="numero-rotulo">Visitantes únicos</div>
+          <div class="numero-valor" id="n-unicos">...</div>
+        </div>
+        <div class="numero">
+          <div class="numero-rotulo">Cliques em botões</div>
+          <div class="numero-valor" id="n-cliques">...</div>
+        </div>
+        <div class="numero">
+          <div class="numero-rotulo">Vídeos vistos</div>
+          <div class="numero-valor" id="n-videos">...</div>
+        </div>
+        <div class="numero">
+          <div class="numero-rotulo">Mensagens</div>
+          <div class="numero-valor" id="n-mensagens">...</div>
+        </div>
+      </div>
+
+      <div class="cartao contato-destaque">
+        <div class="numero-valor" id="n-contato">...</div>
+        <div>
+          <h2>Clicaram para entrar em contato</h2>
+          <p>Conta quem clicou em WhatsApp, e-mail, Instagram ou no botão de enviar o formulário.</p>
+        </div>
+      </div>
+
+      <div class="cartao">
+        <h2>Visitas nos últimos 14 dias</h2>
+        <p class="descricao">Passe o mouse sobre uma barra para ver o dia e o total.</p>
+        <div id="grafico-visitas"><div class="vazio">Carregando dados...</div></div>
+      </div>
+    </section>
+
+    <!-- ===== Aba 2: Portfólio ===== -->
+    <section class="painel" id="portfolio" hidden>
+      <div class="grade-portfolio">
+        <div class="cartao largo">
+          <h2>Vídeos mais vistos</h2>
+          <p class="descricao">Do mais assistido para o menos assistido.</p>
+          <div class="lista" id="lista-videos"><div class="vazio">Carregando dados...</div></div>
+        </div>
+
+        <div class="cartao">
+          <h2>Botões mais clicados</h2>
+          <p class="descricao">Todos os cliques registrados no site.</p>
+          <div class="lista" id="lista-botoes"><div class="vazio">Carregando dados...</div></div>
+        </div>
+
+        <div class="cartao">
+          <h2>Cliques para contato</h2>
+          <p class="descricao">Por qual canal as pessoas mais tentam falar com você.</p>
+          <div class="lista" id="lista-contato"><div class="vazio">Carregando dados...</div></div>
+        </div>
+
+        <div class="cartao largo">
+          <h2>Mensagens recebidas</h2>
+          <p class="descricao">Mais recentes primeiro. Clique numa mensagem para ver os detalhes.</p>
+          <div class="lista" id="lista-mensagens"><div class="vazio">Carregando dados...</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (async function iniciar() {
+      if (!window.Auth) {
+        document.body.classList.remove('oculto');
+        document.body.innerHTML = '<p style="padding:40px;font-family:sans-serif">Não foi possível carregar o painel. Verifique sua conexão e recarregue a página.</p>';
+        return;
+      }
+
+      // ===== Guarda: sem sessão, volta para o login =====
+      const auth = await Auth.checkAuth();
+      if (!auth) return;
+
+      // Sessão confirmada: revela a página
+      document.body.classList.remove('oculto');
+      document.getElementById('usuario-email').textContent = auth.email || '';
+
+      // Se a sessão acabar em outra aba, volta para o login
+      Auth.sb.auth.onAuthStateChange((evento) => {
+        if (evento === 'SIGNED_OUT') window.location.replace('login.html');
+      });
+
+      const $ = (id) => document.getElementById(id);
+      const DIA_MS = 24 * 60 * 60 * 1000;
+      const TAMANHO_BLOCO = 1000;
+
+      // Cache em memória: carregado uma vez, depois só refiltrado
+      const cache = { eventos: [], leads: [] };
+      let periodoAtual = 'tudo';
+
+      // ===== Utilitários =====
+
+      // Escapa texto antes de ir para o HTML (os leads vêm de formulários públicos)
+      function esc(valor) {
+        return String(valor == null ? '' : valor)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      const formatoNumero = new Intl.NumberFormat('pt-BR');
+      const fmt = (n) => formatoNumero.format(n);
+
+      const formatoDataHora = new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+      });
+      const formatoDia = new Intl.DateTimeFormat('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+
+      // Chave AAAA-MM-DD no fuso local
+      function chaveDia(data) {
+        const d = new Date(data);
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      }
+
+      // "contact_whatsapp_click" vira "Contact whatsapp click"
+      function nomeLegivel(nome) {
+        const texto = String(nome || '').replace(/[_-]+/g, ' ').trim();
+        if (!texto) return 'Sem nome';
+        return texto.charAt(0).toUpperCase() + texto.slice(1);
+      }
+
+      // Nome amigável do canal de contato a partir do event_name
+      function nomeCanal(nome) {
+        const n = String(nome).toLowerCase();
+        if (n.includes('whats')) return 'WhatsApp';
+        if (n.includes('insta')) return 'Instagram';
+        if (n.includes('mail')) return 'E-mail';
+        if (n.includes('form') || n.includes('submit')) return 'Formulário';
+        return nomeLegivel(n.replace(/^contact_/, ''));
+      }
+
+      // Agrupa por uma chave e devolve [{ chave, total, itens }] do maior para o menor
+      function agrupar(lista, pegarChave) {
+        const mapa = new Map();
+        lista.forEach((item) => {
+          const chave = pegarChave(item);
+          if (!mapa.has(chave)) mapa.set(chave, { chave, total: 0, itens: [] });
+          const grupo = mapa.get(chave);
+          grupo.total += 1;
+          grupo.itens.push(item);
+        });
+        return [...mapa.values()].sort((a, b) => b.total - a.total);
+      }
+
+      function vazio(texto) {
+        return '<div class="vazio">' + esc(texto) + '</div>';
+      }
+
+      function mostrarAlerta(texto) {
+        const alerta = $('alerta');
+        alerta.textContent = texto;
+        alerta.hidden = false;
+      }
+
+      // ===== Leitura paginada =====
+      // O Supabase devolve no máximo 1000 linhas por consulta (e ignora limites maiores
+      // sem avisar). Por isso buscamos em blocos de 1000 até vir um bloco menor.
+      async function buscarTudo(tabela) {
+        let todas = [];
+        let inicio = 0;
+        while (true) {
+          const { data, error } = await Auth.sb
+            .from(tabela)
+            .select('*')
+            .order('created_at', { ascending: false })
+            .order('id', { ascending: false }) // desempate estável entre blocos
+            .range(inicio, inicio + TAMANHO_BLOCO - 1);
+
+          if (error) throw error;
+          todas = todas.concat(data || []);
+          if (!data || data.length < TAMANHO_BLOCO) break;
+          inicio += TAMANHO_BLOCO;
+        }
+        return todas;
+      }
+
+      // ===== Filtro de período (só refiltra o cache) =====
+      function filtrarPorPeriodo(lista) {
+        if (periodoAtual === 'tudo') return lista;
+        const corte = Date.now() - Number(periodoAtual) * DIA_MS;
+        return lista.filter((linha) => new Date(linha.created_at).getTime() >= corte);
+      }
+
+      // ===== Aba Menu Principal =====
+      function desenharMenuPrincipal(eventos, leads) {
+        const visitas = eventos.filter((e) => e.event_type === 'page_view');
+        const cliques = eventos.filter((e) => e.event_type === 'button_click');
+        const videos = eventos.filter((e) => e.event_type === 'video_view');
+        const unicos = new Set(visitas.map((e) => e.session_id).filter(Boolean));
+        const contato = cliques.filter((e) => String(e.event_name || '').startsWith('contact_'));
+
+        $('n-visitas').textContent = fmt(visitas.length);
+        $('n-unicos').textContent = fmt(unicos.size);
+        $('n-cliques').textContent = fmt(cliques.length);
+        $('n-videos').textContent = fmt(videos.length);
+        $('n-mensagens').textContent = fmt(leads.length);
+        $('n-contato').textContent = fmt(contato.length);
+
+        desenharGrafico(visitas);
+      }
+
+      // Gráfico de barras com divs de altura proporcional
+      function desenharGrafico(visitas) {
+        const alvo = $('grafico-visitas');
+        if (!visitas.length) {
+          alvo.innerHTML = vazio('Nenhuma visita registrada ainda.');
+          return;
+        }
+
+        // Monta os últimos 14 dias (do mais antigo para hoje)
+        const hoje = new Date();
+        hoje.setHours(12, 0, 0, 0);
+        const dias = [];
+        for (let i = 13; i >= 0; i--) {
+          const d = new Date(hoje.getTime() - i * DIA_MS);
+          dias.push({ chave: chaveDia(d), data: d, total: 0 });
+        }
+        const porChave = new Map(dias.map((d) => [d.chave, d]));
+        visitas.forEach((e) => {
+          const dia = porChave.get(chaveDia(e.created_at));
+          if (dia) dia.total += 1;
+        });
+
+        const maximo = Math.max(1, ...dias.map((d) => d.total));
+
+        const colunas = dias.map((d, i) => {
+          const altura = (d.total / maximo) * 100;
+          const rotulo = formatoDia.format(d.data) + ': ' + fmt(d.total) + (d.total === 1 ? ' visita' : ' visitas');
+          return '<div class="coluna' + (i === dias.length - 1 ? ' hoje' : '') + '" tabindex="0" aria-label="' + esc(rotulo) + '">' +
+                   '<span class="valor-barra" style="bottom:calc(' + altura + '% + 4px)">' + (d.total ? fmt(d.total) : '') + '</span>' +
+                   '<div class="barra" style="height:' + altura + '%"></div>' +
+                   '<span class="dica">' + esc(rotulo) + '</span>' +
+                 '</div>';
+        }).join('');
+
+        const eixo = dias.map((d) => '<span>' + d.data.getDate() + '</span>').join('');
+
+        alvo.innerHTML = '<div class="grafico">' + colunas + '</div><div class="eixo">' + eixo + '</div>';
+      }
+
+      // ===== Aba Portfólio =====
+      function desenharPortfolio(eventos, leads) {
+        desenharVideos(eventos.filter((e) => e.event_type === 'video_view'));
+
+        const cliques = eventos.filter((e) => e.event_type === 'button_click');
+        desenharBotoes(cliques);
+        desenharContato(cliques.filter((e) => String(e.event_name || '').startsWith('contact_')));
+
+        desenharMensagens(leads);
+      }
+
+      // Linha genérica: nome, número e barra proporcional
+      function linhaBarra(nome, total, maximo, classeExtra) {
+        const largura = Math.max(2, (total / maximo) * 100);
+        return '<div>' +
+                 '<div class="linha-barra-topo"><span>' + esc(nome) + '</span><strong>' + fmt(total) + '</strong></div>' +
+                 '<div class="trilho"><div class="preenchido ' + (classeExtra || '') + '" style="width:' + largura + '%"></div></div>' +
+               '</div>';
+      }
+
+      function desenharVideos(videos) {
+        const alvo = $('lista-videos');
+        if (!videos.length) {
+          alvo.innerHTML = vazio('Nenhum vídeo assistido por enquanto.');
+          return;
+        }
+        const grupos = agrupar(videos, (e) => String(e.event_name || '').trim());
+        const maximo = grupos[0].total;
+
+        alvo.innerHTML = grupos.map((g) => {
+          // Título vem do metadata de qualquer evento do grupo que tenha um
+          const comTitulo = g.itens.find((e) => e.metadata && e.metadata.title);
+          const titulo = comTitulo ? comTitulo.metadata.title : (g.chave || 'Vídeo sem id');
+          // Só monta links do YouTube se o id tiver formato válido
+          const idValido = /^[A-Za-z0-9_-]{6,20}$/.test(g.chave);
+          const miniatura = idValido
+            ? '<a class="miniatura" href="https://www.youtube.com/watch?v=' + g.chave + '" target="_blank" rel="noopener noreferrer" title="Abrir no YouTube">' +
+                '<img src="https://i.ytimg.com/vi/' + g.chave + '/mqdefault.jpg" alt="" loading="lazy">' +
+              '</a>'
+            : '<img alt="">';
+          const largura = Math.max(2, (g.total / maximo) * 100);
+          return '<div class="video">' + miniatura +
+                   '<div>' +
+                     '<div class="linha-barra-topo"><span class="video-titulo" title="' + esc(titulo) + '">' + esc(titulo) + '</span>' +
+                     '<strong>' + fmt(g.total) + '</strong></div>' +
+                     '<div class="trilho"><div class="preenchido" style="width:' + largura + '%"></div></div>' +
+                   '</div>' +
+                 '</div>';
+        }).join('');
+      }
+
+      function desenharBotoes(cliques) {
+        const alvo = $('lista-botoes');
+        if (!cliques.length) {
+          alvo.innerHTML = vazio('Nenhum clique registrado ainda.');
+          return;
+        }
+        const grupos = agrupar(cliques, (e) => e.event_name || '');
+        const maximo = grupos[0].total;
+        alvo.innerHTML = grupos.map((g) => linhaBarra(nomeLegivel(g.chave), g.total, maximo)).join('');
+      }
+
+      function desenharContato(cliques) {
+        const alvo = $('lista-contato');
+        if (!cliques.length) {
+          alvo.innerHTML = vazio('Ninguém clicou para entrar em contato ainda.');
+          return;
+        }
+        // Agrupa pelo canal amigável (ex.: contact_whatsapp e contact_whatsapp_footer somam juntos)
+        const grupos = agrupar(cliques, (e) => nomeCanal(e.event_name));
+        const maximo = grupos[0].total;
+        alvo.innerHTML = grupos.map((g) => linhaBarra(g.chave, g.total, maximo, 'verde')).join('');
+      }
+
+      function desenharMensagens(leads) {
+        const alvo = $('lista-mensagens');
+        if (!leads.length) {
+          alvo.innerHTML = vazio('Nenhuma mensagem por enquanto.');
+          return;
+        }
+
+        const ordenados = [...leads].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        alvo.innerHTML = ordenados.map((lead) => {
+          const origem = lead.source === 'popup' ? 'popup' : 'contact';
+          const data = lead.created_at ? formatoDataHora.format(new Date(lead.created_at)) : '';
+          const digitos = String(lead.phone || '').replace(/\D/g, '');
+          const assunto = encodeURIComponent('Re: seu contato pelo portfólio');
+
+          const detalhe = (rotulo, valor) =>
+            '<div><div class="detalhe-rotulo">' + rotulo + '</div><div class="detalhe-valor">' + (valor ? esc(valor) : 'Não informado') + '</div></div>';
+
+          let acoes = '';
+          if (lead.email) {
+            acoes += '<a class="botao-acao" href="mailto:' + esc(encodeURIComponent(lead.email).replace(/%40/g, '@')) + '?subject=' + assunto + '">Responder por e-mail</a>';
+          }
+          if (digitos) {
+            acoes += '<a class="botao-acao whatsapp" href="https://wa.me/' + digitos + '" target="_blank" rel="noopener noreferrer">WhatsApp</a>';
+          }
+
+          return '<details class="mensagem">' +
+                   '<summary>' +
+                     '<span class="selo ' + origem + '">' + origem + '</span>' +
+                     '<div style="min-width:0">' +
+                       '<div class="mensagem-nome">' + esc(lead.name || 'Sem nome') + '</div>' +
+                       '<div class="mensagem-email">' + esc(lead.email || 'Sem e-mail') + '</div>' +
+                     '</div>' +
+                     '<div class="mensagem-data">' + esc(data) + ' <span class="seta" aria-hidden="true">&#9662;</span></div>' +
+                   '</summary>' +
+                   '<div class="mensagem-corpo">' +
+                     '<div class="detalhes">' +
+                       detalhe('Telefone', lead.phone) +
+                       detalhe('Marca', lead.brand) +
+                       detalhe('Orçamento', lead.budget) +
+                     '</div>' +
+                     '<div class="mensagem-texto">' + (lead.message ? esc(lead.message) : 'Sem mensagem.') + '</div>' +
+                     (acoes ? '<div class="acoes">' + acoes + '</div>' : '') +
+                   '</div>' +
+                 '</details>';
+        }).join('');
+      }
+
+      // ===== Redesenha tudo a partir do cache =====
+      function redesenhar() {
+        const eventos = filtrarPorPeriodo(cache.eventos);
+        const leads = filtrarPorPeriodo(cache.leads);
+        desenharMenuPrincipal(eventos, leads);
+        desenharPortfolio(eventos, leads);
+      }
+
+      // ===== Abas =====
+      const sidebar = $('sidebar');
+      const fundoGaveta = $('fundo-gaveta');
+
+      function fecharGaveta() {
+        sidebar.classList.remove('aberta');
+        fundoGaveta.classList.remove('visivel');
+      }
+
+      document.querySelectorAll('.aba').forEach((botao) => {
+        botao.addEventListener('click', () => {
+          document.querySelectorAll('.painel').forEach((p) => { p.hidden = true; });
+          document.querySelectorAll('.aba').forEach((b) => b.classList.remove('ativa'));
+          $(botao.dataset.tab).hidden = false;
+          botao.classList.add('ativa');
+          $('titulo-pagina').textContent = botao.dataset.titulo;
+          fecharGaveta();
+          window.scrollTo({ top: 0 });
+        });
+      });
+
+      // Gaveta no celular
+      $('botao-menu').addEventListener('click', () => {
+        sidebar.classList.add('aberta');
+        fundoGaveta.classList.add('visivel');
+      });
+      fundoGaveta.addEventListener('click', fecharGaveta);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharGaveta(); });
+
+      // ===== Filtro de período =====
+      document.querySelectorAll('.periodo').forEach((botao) => {
+        botao.addEventListener('click', () => {
+          document.querySelectorAll('.periodo').forEach((b) => b.classList.remove('ativo'));
+          botao.classList.add('ativo');
+          periodoAtual = botao.dataset.periodo;
+          redesenhar();
+        });
+      });
+
+      $('botao-sair').addEventListener('click', () => Auth.logout());
+
+      // ===== Carga inicial (uma vez só) =====
+      // As duas tabelas são lidas em paralelo; se uma falhar, a outra ainda aparece.
+      const [resEventos, resLeads] = await Promise.allSettled([
+        buscarTudo('portfolio_events'),
+        buscarTudo('portfolio_leads'),
+      ]);
+
+      const falhas = [];
+      if (resEventos.status === 'fulfilled') cache.eventos = resEventos.value;
+      else { falhas.push('eventos'); console.error('Erro ao ler portfolio_events:', resEventos.reason); }
+      if (resLeads.status === 'fulfilled') cache.leads = resLeads.value;
+      else { falhas.push('mensagens'); console.error('Erro ao ler portfolio_leads:', resLeads.reason); }
+
+      if (falhas.length) {
+        mostrarAlerta('Não foi possível carregar ' + falhas.join(' e ') + '. Os números abaixo podem estar incompletos. Recarregue a página para tentar de novo.');
+      }
+
+      redesenhar();
+    })().catch((erro) => {
+      // Qualquer falha inesperada: mostra a página com um aviso em vez de tela em branco
+      console.error(erro);
+      document.body.classList.remove('oculto');
+      const alerta = document.getElementById('alerta');
+      if (alerta) {
+        alerta.textContent = 'Algo deu errado ao montar o painel. Recarregue a página.';
+        alerta.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

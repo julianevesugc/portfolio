@@ -436,7 +436,6 @@
     }
     .depoimento strong { display: block; font-size: 0.95rem; }
     .depoimento span.empresa { font-size: 0.85rem; color: var(--tinta-suave); }
-    .estrelas { color: var(--laranja-texto); letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 14px; }
 
     /* =========================================================
        7. CONTATO
@@ -810,9 +809,10 @@
         ],
         depoimentosTitulo: "O que as *marcas* dizem",
         depoimentos: [
-          { texto: "A Julia entendeu a nossa marca de primeira. Os vídeos ficaram naturais, chegaram antes do prazo e viraram os anúncios com melhor resultado do trimestre.", nome: "Mariana Lopes", empresa: "Gerente de marketing, Bella Pele", cor: 0 },
-          { texto: "Profissional do começo ao fim. Roteiro bem pensado, comunicação rápida e um conteúdo que nosso público realmente assiste até o final.", nome: "Rafael Moura", empresa: "Fundador, Move Fit", cor: 4 },
-          { texto: "Já fechamos o terceiro pacote com ela. Cada vídeo traz um retorno que a gente consegue medir em vendas, e isso faz toda a diferença.", nome: "Camila Prado", empresa: "Coordenadora de conteúdo, Casa Lume", cor: 2 }
+          // "empresa" é a linha pequena abaixo do nome (cargo ou segmento). Deixe "" para não mostrar.
+          { texto: "Ótima, muito prestativa e o vídeo ficou excelente. Se prontificou rapidamente para fazer uma mudança.", nome: "Up Bijuteria", empresa: "", cor: 0 },
+          { texto: "Julia, o seu conteúdo ficou muito bom! Você esteve sempre disposta a fazer as alterações necessárias e o resultado final ficou ótimo.", nome: "Dreams Burn", empresa: "", cor: 4 },
+          { texto: "Adoramos trabalhar com a Julia. Ela é super atenciosa, criativa e rápida na entrega. Super indicamos!", nome: "Multiuso Azulim", empresa: "", cor: 2 }
         ]
       },
 
@@ -1096,11 +1096,10 @@
       <div class="depoimentos-grade">
         ${N.depoimentos.map((d, i) => `
           <figure class="depoimento revelar" style="--atraso:${i * 0.1}s">
-            <p class="estrelas" aria-label="Avaliação 5 de 5">★★★★★</p>
             <blockquote><p>${esc(d.texto)}</p></blockquote>
             <figcaption>
               <span class="avatar" aria-hidden="true" style="background-image:${gradiente(d.cor)}">${esc(d.nome.charAt(0))}</span>
-              <span><strong>${esc(d.nome)}</strong><span class="empresa">${esc(d.empresa)}</span></span>
+              <span><strong>${esc(d.nome)}</strong>${d.empresa ? `<span class="empresa">${esc(d.empresa)}</span>` : ""}</span>
             </figcaption>
           </figure>`).join("")}
       </div>`;

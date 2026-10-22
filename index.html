@@ -11,6 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fontes parecidas com os logos, usadas na seção de marcas enquanto os arquivos dos logos não chegam.
+       Só as letras do alfabeto são baixadas (parâmetro text=), para o site continuar leve. -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Comfortaa:wght@700&family=Cormorant+Garamond:wght@500&family=Bodoni+Moda:wght@500&family=Playfair+Display:ital,wght@1,600&family=Oswald:wght@600&family=Montserrat:wght@300;400;700&family=Pacifico&family=Poppins:wght@600&family=Outfit:wght@400&family=Nunito:wght@700;800&family=Varela+Round&family=Questrial&family=Fredoka:wght@600&family=Parisienne&family=Alfa+Slab+One&family=Caveat+Brush&family=Josefin+Sans:wght@300&family=DM+Sans:wght@500&family=Raleway:wght@500&family=Baloo+2:wght@600&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz%C3%81%C3%89%C3%8D%C3%93%C3%9A%C3%82%C3%8A%C3%94%C3%83%C3%95%C3%87%C3%A1%C3%A9%C3%AD%C3%B3%C3%BA%C3%A2%C3%AA%C3%B4%C3%A3%C3%B5%C3%A70123456789'.-%20" rel="stylesheet">
 
   <style>
     /* =========================================================
@@ -387,6 +390,27 @@
     @keyframes surgir { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
     /* =========================================================
+       MARCAS QUE CONFIARAM NO MEU TRABALHO
+       ========================================================= */
+    .cabeca-secao--centro { text-align: center; }
+    .cabeca-secao--centro .titulo-secao, .cabeca-secao--centro .intro-secao { margin-inline: auto; }
+    .cabeca-secao--centro .titulo-secao { max-width: 18ch; }
+    .parceiras-painel {
+      list-style: none; margin: 0; padding: clamp(20px, 3.5vw, 48px);
+      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(8px, 1.4vw, 16px);
+      background: var(--branco); border: 1px solid var(--linha); border-radius: calc(var(--raio) * 1.5); box-shadow: var(--sombra);
+    }
+    .parceira {
+      min-height: clamp(84px, 9vw, 112px); padding: 12px 10px; border-radius: var(--raio-sm);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      color: var(--tinta); transition: background-color .3s ease, color .3s ease;
+    }
+    .parceira:hover { background: var(--creme); color: var(--marrom); }
+    .parceira img { max-height: clamp(36px, 4vw, 52px); max-width: 82%; width: auto; height: auto; object-fit: contain; }
+    .parceira-nome { font-size: calc(clamp(1rem, 0.8rem + 0.7vw, 1.3rem) * var(--escala, 1)); line-height: 1.05; overflow-wrap: anywhere; }
+    .parceira-detalhe { font-family: var(--sans); font-weight: 600; font-size: clamp(0.56rem, 0.52rem + 0.15vw, 0.66rem); letter-spacing: 0.18em; text-transform: uppercase; font-style: normal; margin-top: 6px; opacity: .7; }
+
+    /* =========================================================
        5. SERVIÇOS
        ========================================================= */
     .servicos-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: clamp(16px, 2vw, 24px); }
@@ -515,6 +539,7 @@
       .capa-cartao { left: 12px; }
       .sobre-grade, .contato-grade { grid-template-columns: 1fr; }
       .sobre-foto { max-width: 520px; }
+      .parceiras-painel { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .contadores { grid-template-columns: repeat(2, 1fr); }
       .contador:nth-child(3) { border-left: 0; }
       .contador:nth-child(n + 3) { border-top: 1px solid var(--linha); }
@@ -533,6 +558,8 @@
       .cabeca-secao--linha { display: block; }
       .cabeca-secao--linha .filtros { margin-top: 28px; }
       .trabalhos-grade { grid-template-columns: 1fr 1fr; gap: 24px 14px; }
+      .parceiras-painel { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 14px; gap: 4px; }
+      .parceira { min-height: 88px; }
       .trabalho h3 { font-size: 1.05rem; }
       .trabalho .play { width: 46px; height: 46px; }
       .trabalho .play svg { width: 20px; height: 20px; }
@@ -581,6 +608,11 @@
       <div class="container" id="trabalhos-conteudo"></div>
     </section>
 
+    <!-- MARCAS QUE CONFIARAM NO MEU TRABALHO (a lista fica em marcas/marcas.js) -->
+    <section class="secao" id="marcas-parceiras" aria-labelledby="parceiras-titulo">
+      <div class="container" id="parceiras-conteudo"></div>
+    </section>
+
     <!-- 5. COMO EU TE AJUDO -->
     <section class="secao servicos" id="servicos" aria-labelledby="servicos-titulo">
       <div class="container" id="servicos-conteudo"></div>
@@ -610,6 +642,9 @@
   <footer class="rodape">
     <div class="container" id="rodape-conteudo"></div>
   </footer>
+
+  <!-- Lista de marcas (edite em marcas/marcas.js) -->
+  <script src="marcas/marcas.js"></script>
 
   <script>
     /* =====================================================================
@@ -663,6 +698,7 @@
         { texto: "Sobre", alvo: "sobre" },
         { texto: "Destaque", alvo: "destaques" },
         { texto: "Trabalhos", alvo: "trabalhos" },
+        { texto: "Marcas", alvo: "marcas-parceiras" },
         { texto: "Serviços", alvo: "servicos" },
         { texto: "Números", alvo: "numeros" },
         { texto: "Contato", alvo: "contato" }
@@ -693,7 +729,7 @@
       },
 
       // EDITE AQUI: nichos em que você já trabalhou (faixa que desliza na capa).
-      marcas: ["Tecnologia", "Marketplace", "Mercados", "Gastronomia", "Cosméticos"],
+      marcas: ["Tech", "Marketplace", "Mercados", "Gastronomia", "Bem-estar e Saúde", "Produtos"],
 
       // EDITE AQUI: a seção Sobre mim.
       sobre: {
@@ -752,7 +788,7 @@
         rotulo: "Trabalhos selecionados",
         titulo: "Conteúdo para *cada* nicho",
         textoTodos: "Todos",
-        categorias: ["Mercados", "Gastronomia", "Marketplace", "Outros"],
+        categorias: ["Mercados", "Gastronomia", "Marketplace", "Tech", "Bem-estar e Saúde", "Produtos"],
         itens: [
           // Mercados
           { categoria: "Mercados", titulo: "Demonstrativo Sam's Club", marca: "Sam's Club", formato: "UGC", youtube: "https://youtube.com/shorts/ddxrY7ZekGA", imagem: "", alt: "Vídeo demonstrativo para o Sam's Club", cor: 0 },
@@ -769,15 +805,32 @@
           // Marketplace
           { categoria: "Marketplace", titulo: "Demonstrativo Mercado Livre", marca: "Mercado Livre", formato: "UGC", youtube: "https://youtube.com/shorts/DOgFg05Uiqc", imagem: "", alt: "Vídeo demonstrativo para o Mercado Livre", cor: 5 },
           { categoria: "Marketplace", titulo: "Demonstrativo Open English", marca: "Open English", formato: "UGC", youtube: "https://youtube.com/shorts/tGSIzKMck8U", imagem: "", alt: "Vídeo demonstrativo para a Open English", cor: 7 },
-          { categoria: "Marketplace", titulo: "Demonstrativo Mavia", marca: "Mavia", formato: "UGC", youtube: "https://youtube.com/shorts/UdrlHoZ9csc", imagem: "", alt: "Vídeo demonstrativo para a Mavia", cor: 0 },
-          { categoria: "Marketplace", titulo: "Experiência Mavia", marca: "Mavia", formato: "Experiência", youtube: "https://youtube.com/shorts/AKoMgSbQgyI", imagem: "", alt: "Vídeo de experiência com a Mavia", cor: 2 },
-          { categoria: "Marketplace", titulo: "Demonstrativo Perplexity", marca: "Perplexity", formato: "UGC", youtube: "https://youtube.com/shorts/rZv2oFUC2G8", imagem: "", alt: "Vídeo demonstrativo para a Perplexity", cor: 5 },
-          { categoria: "Marketplace", titulo: "Demonstrativo TotalPass", marca: "TotalPass", formato: "UGC", youtube: "https://youtube.com/shorts/oT5BP0rf_vw", imagem: "", alt: "Vídeo demonstrativo para o TotalPass", cor: 7 },
-          // Outros
-          { categoria: "Outros", titulo: "Demonstrativo Dreams Burn", marca: "Dreams Burn", formato: "UGC", youtube: "https://youtube.com/shorts/Dr_YnqDqMew", imagem: "", alt: "Vídeo demonstrativo para a Dreams Burn", cor: 1 },
-          { categoria: "Outros", titulo: "Demonstrativo Pantene", marca: "Pantene", formato: "UGC", youtube: "https://youtube.com/shorts/I2qPhGA6LKk", imagem: "", alt: "Vídeo demonstrativo para a Pantene", cor: 3 },
-          { categoria: "Outros", titulo: "Demonstrativo Seda", marca: "Seda", formato: "UGC", youtube: "https://youtube.com/shorts/UB1oJ2DDRRg", imagem: "", alt: "Vídeo demonstrativo para a Seda", cor: 4 }
+          // Tech
+          { categoria: "Tech", titulo: "Demonstrativo Perplexity", marca: "Perplexity", formato: "UGC", youtube: "https://youtube.com/shorts/rZv2oFUC2G8", imagem: "", alt: "Vídeo demonstrativo para a Perplexity", cor: 5 },
+          { categoria: "Tech", titulo: "Demonstrativo Mavia", marca: "Mavia", formato: "UGC", youtube: "https://youtube.com/shorts/UdrlHoZ9csc", imagem: "", alt: "Vídeo demonstrativo para a Mavia", cor: 0 },
+          { categoria: "Tech", titulo: "Experiência Mavia", marca: "Mavia", formato: "Experiência", youtube: "https://youtube.com/shorts/AKoMgSbQgyI", imagem: "", alt: "Vídeo de experiência com a Mavia", cor: 2 },
+          { categoria: "Tech", titulo: "Demonstrativo TotalPass", marca: "TotalPass", formato: "UGC", youtube: "https://youtube.com/shorts/oT5BP0rf_vw", imagem: "", alt: "Vídeo demonstrativo para o TotalPass", cor: 7 },
+          // Bem-estar e Saúde
+          { categoria: "Bem-estar e Saúde", titulo: "Demonstrativo Dreams Burn", marca: "Dreams Burn", formato: "UGC", youtube: "https://youtube.com/shorts/Dr_YnqDqMew", imagem: "", alt: "Vídeo demonstrativo para a Dreams Burn", cor: 1 },
+          { categoria: "Bem-estar e Saúde", titulo: "Demonstrativo Nutrasimple", marca: "Nutrasimple", formato: "UGC", youtube: "https://youtube.com/shorts/z1tvcsODYeM", imagem: "", alt: "Vídeo demonstrativo para a Nutrasimple", cor: 0 },
+          { categoria: "Bem-estar e Saúde", titulo: "Experiência Rejuv Prime Skin", marca: "Rejuv Prime Skin", formato: "Experiência", youtube: "https://youtube.com/shorts/SYZIdeFQsxU", imagem: "", alt: "Vídeo de experiência com o Rejuv Prime Skin", cor: 3 },
+          { categoria: "Bem-estar e Saúde", titulo: "Experiência Venya", marca: "Venya", formato: "Experiência", youtube: "https://youtube.com/shorts/aDvYrbmWR_M", imagem: "", alt: "Vídeo de experiência com a Venya", cor: 5 },
+          { categoria: "Bem-estar e Saúde", titulo: "Demonstrativo Hair Skin Deluxe", marca: "Deluxe", formato: "UGC", youtube: "https://youtube.com/shorts/N5dNrF5xYjo", imagem: "", alt: "Vídeo demonstrativo do Hair Skin Deluxe", cor: 2 },
+          { categoria: "Bem-estar e Saúde", titulo: "Demonstrativo Gummy", marca: "Gummy", formato: "UGC", youtube: "https://youtube.com/shorts/kDDvziU6Q8c", imagem: "", alt: "Vídeo demonstrativo da Gummy", cor: 4 },
+          { categoria: "Bem-estar e Saúde", titulo: "Demonstrativo suplemento", marca: "Belt", formato: "UGC", youtube: "https://youtube.com/shorts/xZ2jDH618gQ", imagem: "", alt: "Vídeo demonstrativo de suplemento", cor: 6 },
+          // Produtos
+          { categoria: "Produtos", titulo: "Demonstrativo Pantene", marca: "Pantene", formato: "UGC", youtube: "https://youtube.com/shorts/I2qPhGA6LKk", imagem: "", alt: "Vídeo demonstrativo para a Pantene", cor: 3 },
+          { categoria: "Produtos", titulo: "Demonstrativo Seda", marca: "Seda", formato: "UGC", youtube: "https://youtube.com/shorts/UB1oJ2DDRRg", imagem: "", alt: "Vídeo demonstrativo para a Seda", cor: 4 },
+          { categoria: "Produtos", titulo: "Demonstrativo leave-in capilar", marca: "Legee", formato: "UGC", youtube: "https://youtube.com/shorts/5HdaITCsTvY", imagem: "", alt: "Vídeo demonstrativo de leave-in capilar", cor: 1 },
+          { categoria: "Produtos", titulo: "Experiência sérum", marca: "De Lá Terre", formato: "Experiência", youtube: "https://youtube.com/shorts/IBqFVKIIMGQ", imagem: "", alt: "Vídeo de experiência com sérum", cor: 3 }
         ]
+      },
+
+      // EDITE AQUI: textos da seção de marcas. A lista de marcas fica no arquivo marcas/marcas.js.
+      marcasParceiras: {
+        rotulo: "Marcas",
+        titulo: "Marcas que *confiaram* no meu trabalho",
+        intro: "Algumas das marcas com quem eu já criei conteúdo."
       },
 
       // EDITE AQUI: seus serviços.
@@ -1030,6 +1083,39 @@
         $("#trabalhos-aviso").textContent = `${total} ${total === 1 ? "trabalho exibido" : "trabalhos exibidos"}.`;
       });
     });
+
+    // ===== Marcas que confiaram no meu trabalho =====
+    // Com logo: mostra a imagem. Sem logo: escreve o nome com a fonte indicada em marcas/marcas.js.
+    const listaParceiras = Array.isArray(window.MARCAS) ? window.MARCAS.filter((m) => m && m.nome) : [];
+    if (listaParceiras.length) {
+      const P = C.marcasParceiras;
+      $("#parceiras-conteudo").innerHTML = `
+        <div class="cabeca-secao cabeca-secao--centro revelar">${cabecalho("parceiras-titulo", P.rotulo, P.titulo, P.intro)}</div>
+        <ul class="parceiras-painel revelar" aria-label="Logos das marcas">
+          ${listaParceiras.map((m) => {
+            if (m.logo) {
+              return `<li class="parceira"><img src="marcas/${esc(m.logo)}" alt="${esc(m.nome)}" loading="lazy" decoding="async"></li>`;
+            }
+            const estilo = [
+              m.fonte ? `font-family:'${esc(m.fonte)}', var(--sans)` : "",
+              m.peso ? `font-weight:${Number(m.peso)}` : "",
+              m.italico ? "font-style:italic" : "",
+              m.maiusculas ? "text-transform:uppercase" : "",
+              m.espacamento ? `letter-spacing:${esc(m.espacamento)}` : "",
+              `--escala:${Number(m.escala) || 1}`
+            ].filter(Boolean).join(";");
+            return `
+              <li class="parceira parceira--texto" style="${estilo}">
+                <span class="sr-only">${esc(m.nome)}</span>
+                <span class="parceira-nome" aria-hidden="true">${esc(m.texto || m.nome)}</span>
+                ${m.detalhe ? `<span class="parceira-detalhe" aria-hidden="true">${esc(m.detalhe)}</span>` : ""}
+              </li>`;
+          }).join("")}
+        </ul>`;
+    } else {
+      $("#marcas-parceiras").hidden = true;
+      $(`#menu a[href="#marcas-parceiras"]`)?.parentElement.remove();
+    }
 
     // Player de vídeo: abre o vídeo do YouTube por cima da página, sem sair do site.
     const player = $("#player");
